@@ -1,0 +1,660 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearchPostgres"]
+  output          = "../generated/prisma"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+// ============================================
+// ENUMS
+// ============================================
+
+enum UserRole {
+  CANDIDATE
+  RECRUITER
+  ADMIN
+}
+
+enum Gender {
+  MALE
+  FEMALE
+  OTHER
+  NOTSAY
+}
+
+enum UserStatus {
+  ACTIVE
+  DISABLED
+  BANNED
+}
+
+enum BillingPlan {
+  FREE
+  STARTER
+  PROFESSIONAL
+  ENTERPRISE
+}
+
+enum SkillVerificationStatus {
+  PENDING
+  IN_PROGRESS
+  VERIFIED
+  REJECTED
+  EXPIRED
+}
+
+enum OrganisationRole {
+  OWNER
+  ADMIN
+  RECRUITER
+  VIEWER
+}
+
+enum ApplicationStatus {
+  SUBMITTED
+  REVIEWED
+  SHORTLISTED
+  INTERVIEW
+  OFFER
+  ACCEPTED
+  REJECTED
+  WITHDRAWN
+}
+
+// ============================================
+// USER & GLOBALS
+// ============================================
+
+model User {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  name          String
+  lastName      String
+  email         String   @unique
+  emailVerified Boolean  @default(false)
+  image         String?
+  role          UserRole @default(CANDIDATE)
+
+  gender        Gender?
+  dateOfBirth   DateTime?
+  jobTitle      String?
+  phoneNumber   String?    @unique
+  bio           String?
+  phoneVerified Boolean    @default(false)
+  status        UserStatus @default(ACTIVE)
+  timezone      String? // IANA timezone identifier
+  locale        String? // Language/locale preference
+
+  // Relationships
+  accounts             Account[]
+  sessions             Session[]
+  candidateProfile     CandidateProfile?
+  memberships          Membership[]
+  createdOrganisations Organisation[]      @relation("OrganisationCreator")
+  auditLogs            AuditLog[]
+  emailChangeRecords   EmailChangeRecord[]
+  phoneChangeRecords   PhoneChangeRecord[]
+  country              Country?            @relation(fields: [countryId], references: [id])
+  countryId            String?
+  region               Region?             @relation(fields: [regionId], references: [id])
+  regionId             String?
+
+  @@map("users")
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  userId    String
+  expiresAt DateTime
+  token     String   @unique
+  ipAddress String?
+  userAgent String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
+}
+
+model Account {
+  id                    String    @id @default(cuid())
+  userId                String
+  accountId             String
+  providerId            String
+  accessToken           String?
+  refreshToken          String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  idToken               String?
+  password              String?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([providerId, accountId])
+  @@map("account")
+}
+
+model Verification {
+  id         String   @id @default(cuid())
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@map("verification")
+}
+
+model EmailChangeRecord {
+  id        String   @id @default(cuid())
+  email     String // current email
+  newEmail  String   @map("new_email") // new email to verify
+  otp       String
+  expiresAt DateTime @map("expires_at")
+  attempts  Int      @default(0)
+  createdAt DateTime @default(now()) @map("created_at")
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("emailChangeRecords")
+}
+
+model PhoneChangeRecord {
+  id             String   @id @default(cuid())
+  phoneNumber    String?
+  newPhoneNumber String
+  otp            String
+  expiresAt      DateTime @map("expires_at")
+  attempts       Int      @default(0)
+  createdAt      DateTime @default(now())
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([otp])
+  @@map("phoneChangeRecords")
+}
+
+model RateLimit {
+  id        String   @id @default(cuid())
+  key       String   @unique // e.g., 'email_change:user_id'
+  count     Int      @default(0)
+  resetTime DateTime @map("reset_time")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("rateLimits")
+}
+
+model Currency {
+  id           String    @id @default(cuid())
+  name         String    @unique
+  code         String    @unique // ISO 4217 currency code
+  symbol       String?
+  decimals     Int?
+  demonym      String?
+  majorSingle  String?
+  majorPlural  String?
+  ISOnum       Int?
+  symbolNative String
+  minorSingle  String?
+  minorPlural  String?
+  ISOdigits    Int?
+  numToBasic   Int?
+  countries    Country[]
+
+  @@map("currencies")
+}
+
+model Continent {
+  id        String    @id @default(cuid())
+  name      String    @unique
+  countries Country[]
+
+  @@map("continents")
+}
+
+model Country {
+  id          String    @id @default(cuid())
+  isoCode     String    @unique // ISO 3166-1 alpha-2 country code
+  isoCode3    String    @unique // ISO 3166-1 alpha-3 country code
+  name        String
+  flag        String
+  latitude    Float
+  longitude   Float
+  currency    Currency  @relation(fields: [currencyId], references: [id], onDelete: Cascade)
+  currencyId  String
+  continent   Continent @relation(fields: [continentId], references: [id], onDelete: Cascade)
+  continentId String
+  phonePrefix String? // International dialing code
+  regions     Region[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  users       User[]
+
+  @@map("countries")
+}
+
+model Region {
+  id        String   @id @default(cuid())
+  code      String // State/Province/Region code
+  name      String
+  country   Country  @relation(fields: [countryId], references: [id], onDelete: Cascade)
+  countryId String
+  users     User[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([countryId, code])
+  @@map("regions")
+}
+
+// ============================================
+// CANDIDATE PROFILES
+// ============================================
+
+model CandidateProfile {
+  id     String @id @default(cuid())
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Personal Information
+  firstName    String
+  lastName     String
+  headline     String?
+  phone        String?
+  location     String?
+  linkedinUrl  String?
+  portfolioUrl String?
+
+  // Professional Summary
+  summary         String?
+  yearsExperience Int?
+
+  // Resume Data
+  resumeUrl String?
+  resumeKey String?
+
+  // Privacy Settings
+  profileVisibility String  @default("public") // public, private, recruiter-only
+  searchable        Boolean @default(true)
+
+  // Metadata
+  completionScore Int @default(0) // 0-100
+  profileViews    Int @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relationships
+  workExperience     WorkExperience[]
+  education          Education[]
+  skills             CandidateSkill[]
+  certifications     Certification[]
+  applications       Application[]
+  skillVerifications SkillVerification[]
+
+  @@map("candidate_profiles")
+}
+
+model WorkExperience {
+  id        String           @id @default(cuid())
+  profileId String
+  profile   CandidateProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  company     String
+  title       String
+  location    String?
+  startDate   DateTime
+  endDate     DateTime?
+  current     Boolean   @default(false)
+  description String?
+
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("work_experiences")
+}
+
+model Education {
+  id        String           @id @default(cuid())
+  profileId String
+  profile   CandidateProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  institution String
+  degree      String
+  field       String?
+  startDate   DateTime?
+  endDate     DateTime?
+  current     Boolean   @default(false)
+  gpa         String?
+  description String?
+
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("education")
+}
+
+model Skill {
+  id       String @id @default(cuid())
+  name     String @unique
+  category String // e.g., "Technical", "Soft", "Language", "Tool"
+
+  candidates CandidateSkill[]
+  jobs       JobSkill[]
+
+  @@map("skills")
+}
+
+model CandidateSkill {
+  id        String           @id @default(cuid())
+  profileId String
+  profile   CandidateProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  skillId String
+  skill   Skill  @relation(fields: [skillId], references: [id], onDelete: Cascade)
+
+  level    String? // e.g., "Beginner", "Intermediate", "Advanced", "Expert"
+  yearsExp Int?
+  verified Boolean @default(false)
+
+  createdAt DateTime @default(now())
+
+  @@unique([profileId, skillId])
+  @@map("candidate_skills")
+}
+
+model Certification {
+  id        String           @id @default(cuid())
+  profileId String
+  profile   CandidateProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  name          String
+  issuer        String
+  issueDate     DateTime?
+  expiryDate    DateTime?
+  credentialId  String?
+  credentialUrl String?
+
+  verified Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("certifications")
+}
+
+// ============================================
+// ORGANISATIONS (RECRUITERS/COMPANIES)
+// ============================================
+
+model Organisation {
+  id   String @id @default(cuid())
+  name String
+  slug String @unique
+
+  // Company Info
+  website     String?
+  industry    String?
+  size        String? // e.g., "1-10", "11-50", "51-200", etc.
+  description String?
+  logoUrl     String?
+
+  // Contact
+  email    String?
+  phone    String?
+  location String?
+
+  // Settings
+  verified Boolean @default(false)
+  active   Boolean @default(true)
+
+  // Creator
+  createdById String
+  createdBy   User   @relation("OrganisationCreator", fields: [createdById], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relationships
+  memberships Membership[]
+  jobs        Job[]
+  billing     Billing?
+
+  @@map("organisations")
+}
+
+model Membership {
+  id             String       @id @default(cuid())
+  organisationId String
+  organisation   Organisation @relation(fields: [organisationId], references: [id], onDelete: Cascade)
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  role OrganisationRole @default(RECRUITER)
+
+  invitedBy String?
+  invitedAt DateTime?
+  joinedAt  DateTime  @default(now())
+
+  active Boolean @default(true)
+
+  @@unique([organisationId, userId])
+  @@map("memberships")
+}
+
+// ============================================
+// JOBS & APPLICATIONS
+// ============================================
+
+model Job {
+  id             String       @id @default(cuid())
+  organisationId String
+  organisation   Organisation @relation(fields: [organisationId], references: [id], onDelete: Cascade)
+
+  // Job Details
+  title          String
+  description    String
+  location       String?
+  locationType   String? // "remote", "hybrid", "onsite"
+  employmentType String? // "full-time", "part-time", "contract", "internship"
+
+  // Compensation
+  salaryMin      Int?
+  salaryMax      Int?
+  salaryCurrency String? @default("USD")
+
+  // Requirements
+  experienceMin  Int?
+  experienceMax  Int?
+  educationLevel String?
+
+  // Status
+  status      String  @default("draft") // draft, published, closed, archived
+  externalUrl String?
+
+  // SEO & Tracking
+  slug  String
+  views Int    @default(0)
+
+  publishedAt DateTime?
+  closedAt    DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  // Relationships
+  skills       JobSkill[]
+  applications Application[]
+
+  @@unique([organisationId, slug])
+  @@map("jobs")
+}
+
+model JobSkill {
+  id    String @id @default(cuid())
+  jobId String
+  job   Job    @relation(fields: [jobId], references: [id], onDelete: Cascade)
+
+  skillId String
+  skill   Skill  @relation(fields: [skillId], references: [id], onDelete: Cascade)
+
+  required Boolean @default(true)
+  minLevel String? // "Beginner", "Intermediate", "Advanced", "Expert"
+
+  @@unique([jobId, skillId])
+  @@map("job_skills")
+}
+
+model Application {
+  id    String @id @default(cuid())
+  jobId String
+  job   Job    @relation(fields: [jobId], references: [id], onDelete: Cascade)
+
+  profileId String
+  profile   CandidateProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  status ApplicationStatus @default(SUBMITTED)
+
+  // Application Data
+  coverLetter String?
+  resumeUrl   String?
+  resumeKey   String?
+
+  // Tracking
+  viewedAt DateTime?
+  viewedBy String?
+
+  // Metadata
+  source String? // e.g., "direct", "linkedin", "indeed"
+  notes  String?
+
+  appliedAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([jobId, profileId])
+  @@map("applications")
+}
+
+// ============================================
+// SKILL VERIFICATION SYSTEM
+// ============================================
+
+model SkillVerification {
+  id        String           @id @default(cuid())
+  profileId String
+  profile   CandidateProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  skillName String
+  status    SkillVerificationStatus @default(PENDING)
+
+  // Verification Data
+  dataJson    Json? // Flexible storage for verification details
+  documentUrl String?
+  documentKey String?
+
+  // Provider Info (if using third-party service)
+  provider   String?
+  providerId String?
+
+  // Review
+  reviewedBy  String?
+  reviewedAt  DateTime?
+  reviewNotes String?
+
+  // Expiry
+  issuedAt  DateTime?
+  expiresAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("skill_verifications")
+}
+
+// ============================================
+// BILLING & SUBSCRIPTIONS
+// ============================================
+
+model Billing {
+  id             String       @id @default(cuid())
+  organisationId String       @unique
+  organisation   Organisation @relation(fields: [organisationId], references: [id], onDelete: Cascade)
+
+  plan BillingPlan @default(FREE)
+
+  // Stripe
+  stripeCustomerId       String?   @unique
+  stripeSubscriptionId   String?   @unique
+  stripePriceId          String?
+  stripeCurrentPeriodEnd DateTime?
+
+  // Usage Limits
+  monthlyJobPostings      Int @default(0)
+  monthlyApplicationViews Int @default(0)
+
+  // Status
+  active            Boolean @default(true)
+  cancelAtPeriodEnd Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("billing")
+}
+
+// ============================================
+// ADMIN & SYSTEM
+// ============================================
+
+model AuditLog {
+  id     String  @id @default(cuid())
+  userId String?
+  user   User?   @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  action   String // e.g., "user.created", "profile.updated", "job.published"
+  entity   String // e.g., "User", "Job", "Application"
+  entityId String?
+
+  metadata  Json?
+  ipAddress String?
+  userAgent String?
+
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([action])
+  @@index([createdAt])
+  @@map("audit_logs")
+}
+
+model FeatureFlag {
+  id          String  @id @default(cuid())
+  name        String  @unique
+  description String?
+  enabled     Boolean @default(false)
+
+  // Targeting (JSON for flexibility)
+  rules Json? // e.g., { "userIds": [...], "organizations": [...] }
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("feature_flags")
+}

@@ -1,0 +1,508 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearchPostgres"]
+  output          = "../generated/prisma"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+  id            String   @id @default(cuid())
+  name          String?
+  email         String   @unique
+  emailVerified Boolean  @default(false)
+  image         String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  // Relationships
+  accounts             Account[]
+  sessions             Session[]
+  candidateProfile     CandidateProfile?
+  memberships          Membership[]
+  createdOrganizations Organization[]    @relation("OrganizationCreator")
+  auditLogs            AuditLog[]
+
+  @@map("user")
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  userId    String
+  expiresAt DateTime
+  token     String   @unique
+  ipAddress String?
+  userAgent String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("session")
+}
+
+model Account {
+  id                    String    @id @default(cuid())
+  userId                String
+  accountId             String
+  providerId            String
+  accessToken           String?
+  refreshToken          String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  idToken               String?
+  password              String?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([providerId, accountId])
+  @@map("account")
+}
+
+model Verification {
+  id         String   @id @default(cuid())
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@map("verification")
+}
+
+// ============================================
+// CANDIDATE PROFILES
+// ============================================
+
+model CandidateProfile {
+  id     String @id @default(cuid())
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Personal Information
+  firstName    String
+  lastName     String
+  headline     String?
+  phone        String?
+  location     String?
+  linkedinUrl  String?
+  portfolioUrl String?
+
+  // Professional Summary
+  summary         String?
+  yearsExperience Int?
+
+  // Resume Data
+  resumeUrl String?
+  resumeKey String?
+
+  // Privacy Settings
+  profileVisibility String  @default("public") // public, private, recruiter-only
+  searchable        Boolean @default(true)
+
+  // Metadata
+  completionScore Int @default(0) // 0-100
+  profileViews    Int @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relationships
+  workExperience     WorkExperience[]
+  education          Education[]
+  skills             CandidateSkill[]
+  certifications     Certification[]
+  applications       Application[]
+  skillVerifications SkillVerification[]
+
+  @@map("candidate_profiles")
+}
+
+model WorkExperience {
+  id        String           @id @default(cuid())
+  profileId String
+  profile   CandidateProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  company     String
+  title       String
+  location    String?
+  startDate   DateTime
+  endDate     DateTime?
+  current     Boolean   @default(false)
+  description String?
+
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("work_experiences")
+}
+
+model Education {
+  id        String           @id @default(cuid())
+  profileId String
+  profile   CandidateProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  institution String
+  degree      String
+  field       String?
+  startDate   DateTime?
+  endDate     DateTime?
+  current     Boolean   @default(false)
+  gpa         String?
+  description String?
+
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("education")
+}
+
+model Skill {
+  id       String @id @default(cuid())
+  name     String @unique
+  category String // e.g., "Technical", "Soft", "Language", "Tool"
+
+  candidates CandidateSkill[]
+  jobs       JobSkill[]
+
+  @@map("skills")
+}
+
+model CandidateSkill {
+  id        String           @id @default(cuid())
+  profileId String
+  profile   CandidateProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  skillId String
+  skill   Skill  @relation(fields: [skillId], references: [id], onDelete: Cascade)
+
+  level    String? // e.g., "Beginner", "Intermediate", "Advanced", "Expert"
+  yearsExp Int?
+  verified Boolean @default(false)
+
+  createdAt DateTime @default(now())
+
+  @@unique([profileId, skillId])
+  @@map("candidate_skills")
+}
+
+model Certification {
+  id        String           @id @default(cuid())
+  profileId String
+  profile   CandidateProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  name          String
+  issuer        String
+  issueDate     DateTime?
+  expiryDate    DateTime?
+  credentialId  String?
+  credentialUrl String?
+
+  verified Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("certifications")
+}
+
+// ============================================
+// ORGANIZATIONS (RECRUITERS/COMPANIES)
+// ============================================
+
+model Organization {
+  id   String @id @default(cuid())
+  name String
+  slug String @unique
+
+  // Company Info
+  website     String?
+  industry    String?
+  size        String? // e.g., "1-10", "11-50", "51-200", etc.
+  description String?
+  logoUrl     String?
+
+  // Contact
+  email    String?
+  phone    String?
+  location String?
+
+  // Settings
+  verified Boolean @default(false)
+  active   Boolean @default(true)
+
+  // Creator
+  createdById String
+  createdBy   User   @relation("OrganizationCreator", fields: [createdById], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relationships
+  memberships Membership[]
+  jobs        Job[]
+  billing     Billing?
+
+  @@map("organizations")
+}
+
+enum OrganizationRole {
+  OWNER
+  ADMIN
+  RECRUITER
+  VIEWER
+}
+
+model Membership {
+  id             String       @id @default(cuid())
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  role OrganizationRole @default(RECRUITER)
+
+  invitedBy String?
+  invitedAt DateTime?
+  joinedAt  DateTime  @default(now())
+
+  active Boolean @default(true)
+
+  @@unique([organizationId, userId])
+  @@map("memberships")
+}
+
+// ============================================
+// JOBS & APPLICATIONS
+// ============================================
+
+model Job {
+  id             String       @id @default(cuid())
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  // Job Details
+  title          String
+  description    String
+  location       String?
+  locationType   String? // "remote", "hybrid", "onsite"
+  employmentType String? // "full-time", "part-time", "contract", "internship"
+
+  // Compensation
+  salaryMin      Int?
+  salaryMax      Int?
+  salaryCurrency String? @default("USD")
+
+  // Requirements
+  experienceMin  Int?
+  experienceMax  Int?
+  educationLevel String?
+
+  // Status
+  status      String  @default("draft") // draft, published, closed, archived
+  externalUrl String?
+
+  // SEO & Tracking
+  slug  String
+  views Int    @default(0)
+
+  publishedAt DateTime?
+  closedAt    DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  // Relationships
+  skills       JobSkill[]
+  applications Application[]
+
+  @@unique([organizationId, slug])
+  @@map("jobs")
+}
+
+model JobSkill {
+  id    String @id @default(cuid())
+  jobId String
+  job   Job    @relation(fields: [jobId], references: [id], onDelete: Cascade)
+
+  skillId String
+  skill   Skill  @relation(fields: [skillId], references: [id], onDelete: Cascade)
+
+  required Boolean @default(true)
+  minLevel String? // "Beginner", "Intermediate", "Advanced", "Expert"
+
+  @@unique([jobId, skillId])
+  @@map("job_skills")
+}
+
+enum ApplicationStatus {
+  SUBMITTED
+  REVIEWED
+  SHORTLISTED
+  INTERVIEW
+  OFFER
+  ACCEPTED
+  REJECTED
+  WITHDRAWN
+}
+
+model Application {
+  id    String @id @default(cuid())
+  jobId String
+  job   Job    @relation(fields: [jobId], references: [id], onDelete: Cascade)
+
+  profileId String
+  profile   CandidateProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  status ApplicationStatus @default(SUBMITTED)
+
+  // Application Data
+  coverLetter String?
+  resumeUrl   String?
+  resumeKey   String?
+
+  // Tracking
+  viewedAt DateTime?
+  viewedBy String?
+
+  // Metadata
+  source String? // e.g., "direct", "linkedin", "indeed"
+  notes  String?
+
+  appliedAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([jobId, profileId])
+  @@map("applications")
+}
+
+// ============================================
+// SKILL VERIFICATION SYSTEM
+// ============================================
+
+enum SkillVerificationStatus {
+  PENDING
+  IN_PROGRESS
+  VERIFIED
+  REJECTED
+  EXPIRED
+}
+
+model SkillVerification {
+  id        String           @id @default(cuid())
+  profileId String
+  profile   CandidateProfile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  skillName String
+  status    SkillVerificationStatus @default(PENDING)
+
+  // Verification Data
+  dataJson    Json? // Flexible storage for verification details
+  documentUrl String?
+  documentKey String?
+
+  // Provider Info (if using third-party service)
+  provider   String?
+  providerId String?
+
+  // Review
+  reviewedBy  String?
+  reviewedAt  DateTime?
+  reviewNotes String?
+
+  // Expiry
+  issuedAt  DateTime?
+  expiresAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("skill_verifications")
+}
+
+// ============================================
+// BILLING & SUBSCRIPTIONS
+// ============================================
+
+enum BillingPlan {
+  FREE
+  STARTER
+  PROFESSIONAL
+  ENTERPRISE
+}
+
+model Billing {
+  id             String       @id @default(cuid())
+  organizationId String       @unique
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  plan BillingPlan @default(FREE)
+
+  // Stripe
+  stripeCustomerId       String?   @unique
+  stripeSubscriptionId   String?   @unique
+  stripePriceId          String?
+  stripeCurrentPeriodEnd DateTime?
+
+  // Usage Limits
+  monthlyJobPostings      Int @default(0)
+  monthlyApplicationViews Int @default(0)
+
+  // Status
+  active            Boolean @default(true)
+  cancelAtPeriodEnd Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("billing")
+}
+
+// ============================================
+// ADMIN & SYSTEM
+// ============================================
+
+model AuditLog {
+  id     String  @id @default(cuid())
+  userId String?
+  user   User?   @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  action   String // e.g., "user.created", "profile.updated", "job.published"
+  entity   String // e.g., "User", "Job", "Application"
+  entityId String?
+
+  metadata  Json?
+  ipAddress String?
+  userAgent String?
+
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([action])
+  @@index([createdAt])
+  @@map("audit_logs")
+}
+
+model FeatureFlag {
+  id          String  @id @default(cuid())
+  name        String  @unique
+  description String?
+  enabled     Boolean @default(false)
+
+  // Targeting (JSON for flexibility)
+  rules Json? // e.g., { "userIds": [...], "organizations": [...] }
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("feature_flags")
+}
