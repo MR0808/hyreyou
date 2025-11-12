@@ -38,12 +38,6 @@ export const authCheck = async (callbackUrl?: string) => {
 
     if (!session.user.emailVerified) return redirect('/auth/verify-email');
 
-    if (
-        session.company.creatorId === session.user.id &&
-        !session.company.profileCompleted
-    )
-        return redirect('/onboarding');
-
     // if (!session.user.phoneVerified) return redirect('/auth/verify-phone');
 
     return session;
@@ -69,10 +63,6 @@ export const authCheckOnboarding = async () => {
     });
 
     if (!session) return redirect('/auth/login');
-
-    if (session.company.profileCompleted) return redirect('/');
-
-    if (session.company.creatorId !== session.user.id) return redirect('/');
 
     return session;
 };
