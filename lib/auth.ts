@@ -3,14 +3,13 @@ import { createAuthMiddleware } from 'better-auth/api';
 import { prismaAdapter } from 'better-auth/adapters/prisma';
 import { nextCookies } from 'better-auth/next-js';
 import { UserRole, Gender } from '@/generated/prisma';
-import { admin, customSession, openAPI } from 'better-auth/plugins';
+import { customSession, openAPI } from 'better-auth/plugins';
 
 import { prisma } from '@/lib/prisma';
 import { hashPassword, verifyPassword } from '@/lib/argon2';
 import { sendVerificationEmail, sendResetEmail } from '@/lib/mail';
-import { ac, roles } from '@/lib/permissions';
-import { logPasswordResetRequested } from '@/actions/audit/audit-auth';
-import { error } from 'console';
+import { createAuditLog } from '@/lib/audit/helpers';
+import { AUDIT_ACTIONS } from '@/types/audit';
 
 const options = {
     database: prismaAdapter(prisma, {
@@ -19,7 +18,13 @@ const options = {
     socialProviders: {
         google: {
             clientId: process.env.GOOGLE_CLIENT_ID as string,
-            clientSecret: process.env.GOOGLE_CLIENT_SECRET as string
+            clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+            enabled: !!process.env.GOOGLE_CLIENT_ID
+        },
+        linkedin: {
+            clientId: process.env.LINKEDIN_CLIENT_ID as string,
+            clientSecret: process.env.LINKEDIN_CLIENT_SECRET as string,
+            enabled: !!process.env.LINKEDIN_CLIENT_ID
         }
     },
     emailAndPassword: {
@@ -42,7 +47,16 @@ const options = {
         after: createAuthMiddleware(async (ctx) => {
             // const newSession = ctx.context.newSession;
             if (ctx.path === '/forget-password') {
-                await logPasswordResetRequested(ctx.body.email);
+                // await logPasswordResetRequested(ctx.body.email);
+                await createAuditLog({
+                    userId: ctx.body.email,
+                    action: AUDIT_ACTIONS.USER_PASSWORD_RESET_REQUESTED,
+                    entity: 'user',
+                    entityId: undefined,
+                    metadata: {
+                        email: ctx.body.email
+                    }
+                });
             }
         })
     },
@@ -71,7 +85,7 @@ const options = {
                 required: true
             },
             role: {
-                type: ['USER', 'ADMIN'] as Array<UserRole>
+                type: ['CANDIDATE', 'ADMIN', 'RECRUITER'] as Array<UserRole>
             },
             gender: {
                 type: ['MALE', 'FEMALE', 'OTHER', 'NOTSAY'] as Array<Gender>,
@@ -109,10 +123,6 @@ const options = {
                 type: 'string',
                 required: false
             },
-            jobTitle: {
-                type: 'string',
-                required: false
-            },
             bio: {
                 type: 'string',
                 required: false
@@ -131,15 +141,7 @@ const options = {
             enabled: false
         }
     },
-    plugins: [
-        nextCookies(),
-        admin({
-            defaultRole: UserRole.USER,
-            adminRoles: [UserRole.ADMIN],
-            ac,
-            roles
-        })
-    ]
+    plugins: [nextCookies()]
 } satisfies BetterAuthOptions;
 
 export const auth = betterAuth({
@@ -150,18 +152,10 @@ export const auth = betterAuth({
             const accounts = await prisma.account.findMany({
                 where: { id: user.id }
             });
-            const userCompany = await prisma.companyMember.findFirst({
-                where: { userId: user.id },
-                include: { company: true }
-            });
-            if (!userCompany) throw error('no company found');
-            const company = userCompany.company;
             return {
                 session,
                 user,
-                accounts,
-                company,
-                userCompany
+                accounts
             };
         }, options),
         openAPI()

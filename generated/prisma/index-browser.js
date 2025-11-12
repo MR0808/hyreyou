@@ -123,12 +123,24 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
 
 exports.Prisma.UserScalarFieldEnum = {
   id: 'id',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
   name: 'name',
+  lastName: 'lastName',
   email: 'email',
   emailVerified: 'emailVerified',
   image: 'image',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  role: 'role',
+  gender: 'gender',
+  dateOfBirth: 'dateOfBirth',
+  phoneNumber: 'phoneNumber',
+  bio: 'bio',
+  phoneVerified: 'phoneVerified',
+  status: 'status',
+  timezone: 'timezone',
+  locale: 'locale',
+  countryId: 'countryId',
+  regionId: 'regionId'
 };
 
 exports.Prisma.SessionScalarFieldEnum = {
@@ -163,6 +175,83 @@ exports.Prisma.VerificationScalarFieldEnum = {
   identifier: 'identifier',
   value: 'value',
   expiresAt: 'expiresAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.EmailChangeRecordScalarFieldEnum = {
+  id: 'id',
+  email: 'email',
+  newEmail: 'newEmail',
+  otp: 'otp',
+  expiresAt: 'expiresAt',
+  attempts: 'attempts',
+  createdAt: 'createdAt',
+  userId: 'userId'
+};
+
+exports.Prisma.PhoneChangeRecordScalarFieldEnum = {
+  id: 'id',
+  phoneNumber: 'phoneNumber',
+  newPhoneNumber: 'newPhoneNumber',
+  otp: 'otp',
+  expiresAt: 'expiresAt',
+  attempts: 'attempts',
+  createdAt: 'createdAt',
+  userId: 'userId'
+};
+
+exports.Prisma.RateLimitScalarFieldEnum = {
+  id: 'id',
+  key: 'key',
+  count: 'count',
+  resetTime: 'resetTime',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.CurrencyScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  code: 'code',
+  symbol: 'symbol',
+  decimals: 'decimals',
+  demonym: 'demonym',
+  majorSingle: 'majorSingle',
+  majorPlural: 'majorPlural',
+  ISOnum: 'ISOnum',
+  symbolNative: 'symbolNative',
+  minorSingle: 'minorSingle',
+  minorPlural: 'minorPlural',
+  ISOdigits: 'ISOdigits',
+  numToBasic: 'numToBasic'
+};
+
+exports.Prisma.ContinentScalarFieldEnum = {
+  id: 'id',
+  name: 'name'
+};
+
+exports.Prisma.CountryScalarFieldEnum = {
+  id: 'id',
+  isoCode: 'isoCode',
+  isoCode3: 'isoCode3',
+  name: 'name',
+  flag: 'flag',
+  latitude: 'latitude',
+  longitude: 'longitude',
+  currencyId: 'currencyId',
+  continentId: 'continentId',
+  phonePrefix: 'phonePrefix',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.RegionScalarFieldEnum = {
+  id: 'id',
+  code: 'code',
+  name: 'name',
+  countryId: 'countryId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -250,7 +339,7 @@ exports.Prisma.CertificationScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
-exports.Prisma.OrganizationScalarFieldEnum = {
+exports.Prisma.OrganisationScalarFieldEnum = {
   id: 'id',
   name: 'name',
   slug: 'slug',
@@ -271,7 +360,7 @@ exports.Prisma.OrganizationScalarFieldEnum = {
 
 exports.Prisma.MembershipScalarFieldEnum = {
   id: 'id',
-  organizationId: 'organizationId',
+  organisationId: 'organisationId',
   userId: 'userId',
   role: 'role',
   invitedBy: 'invitedBy',
@@ -282,7 +371,7 @@ exports.Prisma.MembershipScalarFieldEnum = {
 
 exports.Prisma.JobScalarFieldEnum = {
   id: 'id',
-  organizationId: 'organizationId',
+  organisationId: 'organisationId',
   title: 'title',
   description: 'description',
   location: 'location',
@@ -349,7 +438,7 @@ exports.Prisma.SkillVerificationScalarFieldEnum = {
 
 exports.Prisma.BillingScalarFieldEnum = {
   id: 'id',
-  organizationId: 'organizationId',
+  organisationId: 'organisationId',
   plan: 'plan',
   stripeCustomerId: 'stripeCustomerId',
   stripeSubscriptionId: 'stripeSubscriptionId',
@@ -408,8 +497,15 @@ exports.Prisma.NullsOrder = {
 exports.Prisma.UserOrderByRelevanceFieldEnum = {
   id: 'id',
   name: 'name',
+  lastName: 'lastName',
   email: 'email',
-  image: 'image'
+  image: 'image',
+  phoneNumber: 'phoneNumber',
+  bio: 'bio',
+  timezone: 'timezone',
+  locale: 'locale',
+  countryId: 'countryId',
+  regionId: 'regionId'
 };
 
 exports.Prisma.SessionOrderByRelevanceFieldEnum = {
@@ -436,6 +532,63 @@ exports.Prisma.VerificationOrderByRelevanceFieldEnum = {
   id: 'id',
   identifier: 'identifier',
   value: 'value'
+};
+
+exports.Prisma.EmailChangeRecordOrderByRelevanceFieldEnum = {
+  id: 'id',
+  email: 'email',
+  newEmail: 'newEmail',
+  otp: 'otp',
+  userId: 'userId'
+};
+
+exports.Prisma.PhoneChangeRecordOrderByRelevanceFieldEnum = {
+  id: 'id',
+  phoneNumber: 'phoneNumber',
+  newPhoneNumber: 'newPhoneNumber',
+  otp: 'otp',
+  userId: 'userId'
+};
+
+exports.Prisma.RateLimitOrderByRelevanceFieldEnum = {
+  id: 'id',
+  key: 'key'
+};
+
+exports.Prisma.CurrencyOrderByRelevanceFieldEnum = {
+  id: 'id',
+  name: 'name',
+  code: 'code',
+  symbol: 'symbol',
+  demonym: 'demonym',
+  majorSingle: 'majorSingle',
+  majorPlural: 'majorPlural',
+  symbolNative: 'symbolNative',
+  minorSingle: 'minorSingle',
+  minorPlural: 'minorPlural'
+};
+
+exports.Prisma.ContinentOrderByRelevanceFieldEnum = {
+  id: 'id',
+  name: 'name'
+};
+
+exports.Prisma.CountryOrderByRelevanceFieldEnum = {
+  id: 'id',
+  isoCode: 'isoCode',
+  isoCode3: 'isoCode3',
+  name: 'name',
+  flag: 'flag',
+  currencyId: 'currencyId',
+  continentId: 'continentId',
+  phonePrefix: 'phonePrefix'
+};
+
+exports.Prisma.RegionOrderByRelevanceFieldEnum = {
+  id: 'id',
+  code: 'code',
+  name: 'name',
+  countryId: 'countryId'
 };
 
 exports.Prisma.CandidateProfileOrderByRelevanceFieldEnum = {
@@ -495,7 +648,7 @@ exports.Prisma.CertificationOrderByRelevanceFieldEnum = {
   credentialUrl: 'credentialUrl'
 };
 
-exports.Prisma.OrganizationOrderByRelevanceFieldEnum = {
+exports.Prisma.OrganisationOrderByRelevanceFieldEnum = {
   id: 'id',
   name: 'name',
   slug: 'slug',
@@ -512,14 +665,14 @@ exports.Prisma.OrganizationOrderByRelevanceFieldEnum = {
 
 exports.Prisma.MembershipOrderByRelevanceFieldEnum = {
   id: 'id',
-  organizationId: 'organizationId',
+  organisationId: 'organisationId',
   userId: 'userId',
   invitedBy: 'invitedBy'
 };
 
 exports.Prisma.JobOrderByRelevanceFieldEnum = {
   id: 'id',
-  organizationId: 'organizationId',
+  organisationId: 'organisationId',
   title: 'title',
   description: 'description',
   location: 'location',
@@ -571,7 +724,7 @@ exports.Prisma.SkillVerificationOrderByRelevanceFieldEnum = {
 
 exports.Prisma.BillingOrderByRelevanceFieldEnum = {
   id: 'id',
-  organizationId: 'organizationId',
+  organisationId: 'organisationId',
   stripeCustomerId: 'stripeCustomerId',
   stripeSubscriptionId: 'stripeSubscriptionId',
   stripePriceId: 'stripePriceId'
@@ -592,7 +745,26 @@ exports.Prisma.FeatureFlagOrderByRelevanceFieldEnum = {
   name: 'name',
   description: 'description'
 };
-exports.OrganizationRole = exports.$Enums.OrganizationRole = {
+exports.UserRole = exports.$Enums.UserRole = {
+  CANDIDATE: 'CANDIDATE',
+  RECRUITER: 'RECRUITER',
+  ADMIN: 'ADMIN'
+};
+
+exports.Gender = exports.$Enums.Gender = {
+  MALE: 'MALE',
+  FEMALE: 'FEMALE',
+  OTHER: 'OTHER',
+  NOTSAY: 'NOTSAY'
+};
+
+exports.UserStatus = exports.$Enums.UserStatus = {
+  ACTIVE: 'ACTIVE',
+  DISABLED: 'DISABLED',
+  BANNED: 'BANNED'
+};
+
+exports.OrganisationRole = exports.$Enums.OrganisationRole = {
   OWNER: 'OWNER',
   ADMIN: 'ADMIN',
   RECRUITER: 'RECRUITER',
@@ -630,13 +802,20 @@ exports.Prisma.ModelName = {
   Session: 'Session',
   Account: 'Account',
   Verification: 'Verification',
+  EmailChangeRecord: 'EmailChangeRecord',
+  PhoneChangeRecord: 'PhoneChangeRecord',
+  RateLimit: 'RateLimit',
+  Currency: 'Currency',
+  Continent: 'Continent',
+  Country: 'Country',
+  Region: 'Region',
   CandidateProfile: 'CandidateProfile',
   WorkExperience: 'WorkExperience',
   Education: 'Education',
   Skill: 'Skill',
   CandidateSkill: 'CandidateSkill',
   Certification: 'Certification',
-  Organization: 'Organization',
+  Organisation: 'Organisation',
   Membership: 'Membership',
   Job: 'Job',
   JobSkill: 'JobSkill',

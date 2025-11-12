@@ -3,6 +3,7 @@ import type { Metadata, Viewport } from 'next';
 import { Manrope, Inter } from 'next/font/google';
 import { Analytics } from '@vercel/analytics/next';
 import './globals.css';
+import { Toaster } from '@/components/ui/sonner';
 
 const manrope = Manrope({
     subsets: ['latin'],
@@ -75,9 +76,11 @@ export default function RootLayout({
         <html lang="en" suppressHydrationWarning>
             <body
                 className={`${manrope.variable} ${inter.variable} font-sans antialiased`}
+                suppressHydrationWarning
             >
                 {children}
                 <Analytics />
+                <Toaster richColors />
             </body>
         </html>
     );

@@ -84,7 +84,6 @@ model User {
 
   gender        Gender?
   dateOfBirth   DateTime?
-  jobTitle      String?
   phoneNumber   String?    @unique
   bio           String?
   phoneVerified Boolean    @default(false)
@@ -142,7 +141,7 @@ model Account {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([providerId, accountId])
-  @@map("account")
+  @@map("accounts")
 }
 
 model Verification {
@@ -153,7 +152,7 @@ model Verification {
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
 
-  @@map("verification")
+  @@map("verifications")
 }
 
 model EmailChangeRecord {
