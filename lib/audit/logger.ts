@@ -44,6 +44,8 @@ export async function logAudit(entry: AuditLogEntry) {
     }
 }
 
+export const createAuditLog = logAudit;
+
 /**
  * Batch log multiple audit events
  * @param entries - Array of audit log entries

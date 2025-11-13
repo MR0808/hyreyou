@@ -104,6 +104,7 @@ model User {
   countryId            String?
   region               Region?             @relation(fields: [regionId], references: [id])
   regionId             String?
+  emailVerifications   EmailVerification[]
 
   @@map("users")
 }
@@ -144,15 +145,32 @@ model Account {
   @@map("accounts")
 }
 
-model Verification {
-  id         String   @id @default(cuid())
-  identifier String
-  value      String
-  expiresAt  DateTime
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+model EmailVerification {
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@map("verifications")
+  email String
+  token String  @unique
+  otp   String?
+
+  // HMAC signature for magic link security
+  signature String
+
+  // Rate limiting
+  attempts  Int     @default(0)
+  ipAddress String?
+
+  verified Boolean   @default(false)
+  usedAt   DateTime?
+
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([email])
+  @@index([token])
+  @@map("email_verifications")
 }
 
 model EmailChangeRecord {

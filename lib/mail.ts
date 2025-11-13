@@ -2,32 +2,42 @@
 
 import { Resend } from 'resend';
 
-import EmailOTPEmailTemplate from '@/emails/email-otp';
 import WelcomeEmailTemplate from '@/emails/welcome-email';
 import ResetPasswordEmailTemplate from '@/emails/reset-password';
+import VerificationEmail from '@/emails/verification-email';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 const fromPerson = `${process.env.NEXT_PUBLIC_APP_NAME as string} <${process.env.NEXT_PUBLIC_APP_EMAIL as string}>`;
-const fromHyreyou = `Nudgely Support <${process.env.NEXT_PUBLIC_APP_EMAIL_SUPPORT as string}>`;
+const fromHyreyou = `Hyreyou Support <${process.env.NEXT_PUBLIC_APP_EMAIL_SUPPORT as string}>`;
+
+interface SendVerificationEmailParams {
+    to: string;
+    magicLink: string;
+    otp: string;
+}
 
 export const sendVerificationEmail = async ({
-    email,
-    otp,
-    name
-}: {
-    email: string;
-    otp: string;
-    name: string;
-}) => {
-    const sent = await resend.emails.send({
-        from: fromHyreyou,
-        to: email,
-        subject: 'Hyreyou - Confirm your email',
-        react: EmailOTPEmailTemplate({ name, otp })
-    });
+    to,
+    magicLink,
+    otp
+}: SendVerificationEmailParams) => {
+    try {
+        const { data, error } = await resend.emails.send({
+            from: fromHyreyou,
+            to,
+            subject: 'Verify your HyreYou email address',
+            react: VerificationEmail({ magicLink, otp })
+        });
 
-    return sent;
+        if (error) {
+            throw error;
+        }
+
+        return data;
+    } catch (error) {
+        throw error;
+    }
 };
 
 export const sendWelcomeEmail = async ({

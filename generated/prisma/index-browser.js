@@ -170,13 +170,19 @@ exports.Prisma.AccountScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
-exports.Prisma.VerificationScalarFieldEnum = {
+exports.Prisma.EmailVerificationScalarFieldEnum = {
   id: 'id',
-  identifier: 'identifier',
-  value: 'value',
+  userId: 'userId',
+  email: 'email',
+  token: 'token',
+  otp: 'otp',
+  signature: 'signature',
+  attempts: 'attempts',
+  ipAddress: 'ipAddress',
+  verified: 'verified',
+  usedAt: 'usedAt',
   expiresAt: 'expiresAt',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  createdAt: 'createdAt'
 };
 
 exports.Prisma.EmailChangeRecordScalarFieldEnum = {
@@ -528,10 +534,14 @@ exports.Prisma.AccountOrderByRelevanceFieldEnum = {
   password: 'password'
 };
 
-exports.Prisma.VerificationOrderByRelevanceFieldEnum = {
+exports.Prisma.EmailVerificationOrderByRelevanceFieldEnum = {
   id: 'id',
-  identifier: 'identifier',
-  value: 'value'
+  userId: 'userId',
+  email: 'email',
+  token: 'token',
+  otp: 'otp',
+  signature: 'signature',
+  ipAddress: 'ipAddress'
 };
 
 exports.Prisma.EmailChangeRecordOrderByRelevanceFieldEnum = {
@@ -801,7 +811,7 @@ exports.Prisma.ModelName = {
   User: 'User',
   Session: 'Session',
   Account: 'Account',
-  Verification: 'Verification',
+  EmailVerification: 'EmailVerification',
   EmailChangeRecord: 'EmailChangeRecord',
   PhoneChangeRecord: 'PhoneChangeRecord',
   RateLimit: 'RateLimit',

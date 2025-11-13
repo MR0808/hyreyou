@@ -11,6 +11,10 @@ export const AUDIT_ACTIONS = {
     USER_PASSWORD_RESET: 'user.password_reset',
     USER_PASSWORD_RESET_REQUESTED: 'user.password_reset_requested',
 
+    // Email Verification
+    EMAIL_VERIFICATION_SENT: 'email_verification.sent',
+    EMAIL_VERIFIED: 'email_verification.verified',
+
     // Candidate Profile Actions
     PROFILE_CREATED: 'profile.created',
     PROFILE_UPDATED: 'profile.updated',
