@@ -5,23 +5,18 @@ import { Resend } from 'resend';
 import WelcomeEmailTemplate from '@/emails/welcome-email';
 import ResetPasswordEmailTemplate from '@/emails/reset-password';
 import VerificationEmail from '@/emails/verification-email';
+import { SendVerificationEmailProps } from '@/types/mail';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 const fromPerson = `${process.env.NEXT_PUBLIC_APP_NAME as string} <${process.env.NEXT_PUBLIC_APP_EMAIL as string}>`;
 const fromHyreyou = `Hyreyou Support <${process.env.NEXT_PUBLIC_APP_EMAIL_SUPPORT as string}>`;
 
-interface SendVerificationEmailParams {
-    to: string;
-    magicLink: string;
-    otp: string;
-}
-
 export const sendVerificationEmail = async ({
     to,
     magicLink,
     otp
-}: SendVerificationEmailParams) => {
+}: SendVerificationEmailProps) => {
     try {
         const { data, error } = await resend.emails.send({
             from: fromHyreyou,

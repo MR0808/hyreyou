@@ -3,7 +3,7 @@
 import { prisma } from '@/lib/prisma';
 import { authCheckServer } from '@/lib/authCheck';
 
-export async function requireEmailVerification() {
+export const requireEmailVerification = async () => {
     const session = await authCheckServer();
 
     if (!session) {
@@ -23,13 +23,13 @@ export async function requireEmailVerification() {
         verified: user.emailVerified,
         user
     };
-}
+};
 
-export async function checkEmailVerificationStatus(userId: string) {
+export const checkEmailVerificationStatus = async (userId: string) => {
     const user = await prisma.user.findUnique({
         where: { id: userId },
         select: { emailVerified: true }
     });
 
     return user?.emailVerified || false;
-}
+};

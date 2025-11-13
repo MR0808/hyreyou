@@ -23,6 +23,7 @@ import {
 } from '@/components/ui/form';
 import { authClient } from '@/lib/auth-client';
 import { registerSchema, type RegisterFormData } from '@/schemas/auth';
+import { sendEmailVerification } from '@/actions/email';
 
 const RegisterForm = () => {
     const router = useRouter();
@@ -39,26 +40,45 @@ const RegisterForm = () => {
         }
     });
 
-    async function onSubmit(data: RegisterFormData) {
+    const onSubmit = (data: RegisterFormData) => {
         startTransition(async () => {
             try {
                 const result = await authClient.signUp.email({
-                    name: `${data.name} ${data.lastName}`,
+                    name: data.name,
                     email: data.email,
                     password: data.password,
-                    lastName: data.lastName,
-                    role: 'CANDIDATE'
+                    lastName: data.lastName
                 });
 
                 if (result.error) {
                     throw new Error(result.error.message);
                 }
 
-                toast.success('Account created!', {
-                    description: 'Your account has been created successfully.'
-                });
+                if (result.data?.user) {
+                    const verificationResult = await sendEmailVerification(
+                        result.data.user.id,
+                        data.email
+                    );
 
-                router.push('/dashboard');
+                    if (verificationResult.error) {
+                        toast.error(
+                            'Registration succeeded but verification email failed',
+                            {
+                                description:
+                                    'Please contact support if you need help.'
+                            }
+                        );
+                    } else {
+                        toast.success('Account created!', {
+                            description:
+                                'Check your email to verify your account.'
+                        });
+                    }
+                }
+
+                router.push(
+                    `/auth/verify-email?email=${encodeURIComponent(data.email)}`
+                );
                 router.refresh();
             } catch (error: any) {
                 toast.error('Registration failed', {
@@ -68,20 +88,20 @@ const RegisterForm = () => {
                 });
             }
         });
-    }
+    };
 
-    async function handleSocialSignup(provider: 'google' | 'linkedin') {
+    const handleSocialSignup = async (provider: 'google' | 'linkedin') => {
         try {
             await authClient.signIn.social({
                 provider,
-                callbackURL: '/dashboard'
+                callbackURL: '/'
             });
         } catch (error) {
             toast.error('Signup failed', {
                 description: `Failed to signup with ${provider}. Please try again.`
             });
         }
-    }
+    };
 
     return (
         <div className="space-y-6">

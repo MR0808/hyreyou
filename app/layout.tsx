@@ -74,6 +74,9 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en" suppressHydrationWarning>
+            <head>
+                <meta name="apple-mobile-web-app-title" content="HyreYou" />
+            </head>
             <body
                 className={`${manrope.variable} ${inter.variable} font-sans antialiased`}
                 suppressHydrationWarning

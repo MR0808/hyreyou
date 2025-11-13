@@ -12,7 +12,7 @@ import { canSendVerification } from '@/lib/rate-limiter';
 import { sendVerificationEmail } from '@/lib/mail';
 import { createAuditLog } from '@/lib/audit/logger';
 
-export async function sendEmailVerification(userId: string, email: string) {
+export const sendEmailVerification = async (userId: string, email: string) => {
     try {
         const headersList = await headers();
         const ipAddress =
@@ -67,12 +67,11 @@ export async function sendEmailVerification(userId: string, email: string) {
 
         return { success: true };
     } catch (error: any) {
-        console.error('[v0] Email verification send error:', error);
         return { error: 'Failed to send verification email' };
     }
-}
+};
 
-export async function verifyEmailWithToken(token: string) {
+export const verifyEmailWithToken = async (token: string) => {
     try {
         const verification = await prisma.emailVerification.findUnique({
             where: { token },
@@ -125,12 +124,11 @@ export async function verifyEmailWithToken(token: string) {
 
         return { success: true, userId: verification.userId };
     } catch (error: any) {
-        console.error('[v0] Email verification error:', error);
         return { error: 'Failed to verify email' };
     }
-}
+};
 
-export async function verifyEmailWithOTP(email: string, otp: string) {
+export const verifyEmailWithOTP = async (email: string, otp: string) => {
     try {
         const verification = await prisma.emailVerification.findFirst({
             where: {
@@ -188,12 +186,11 @@ export async function verifyEmailWithOTP(email: string, otp: string) {
 
         return { success: true, userId: verification.userId };
     } catch (error: any) {
-        console.error('[v0] OTP verification error:', error);
         return { error: 'Failed to verify OTP' };
     }
-}
+};
 
-export async function resendVerification(email: string) {
+export const resendVerification = async (email: string) => {
     try {
         const user = await prisma.user.findUnique({
             where: { email }
@@ -220,7 +217,6 @@ export async function resendVerification(email: string) {
 
         return await sendEmailVerification(user.id, user.email);
     } catch (error: any) {
-        console.error('[v0] Resend verification error:', error);
         return { error: 'Failed to resend verification' };
     }
-}
+};

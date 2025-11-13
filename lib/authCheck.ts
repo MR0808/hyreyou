@@ -55,6 +55,20 @@ export const authCheckServer = async () => {
     return session;
 };
 
+export const getAuthUser = async () => {
+    const headerList = await headers();
+
+    const session = await auth.api.getSession({
+        headers: headerList
+    });
+
+    if (!session?.user) {
+        throw new Error('Unauthorized');
+    }
+
+    return session.user;
+};
+
 export const authCheckOnboarding = async () => {
     const headerList = await headers();
 

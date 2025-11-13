@@ -15,6 +15,21 @@ export const AUDIT_ACTIONS = {
     EMAIL_VERIFICATION_SENT: 'email_verification.sent',
     EMAIL_VERIFIED: 'email_verification.verified',
 
+    // Onboarding
+    CANDIDATE_PROFILE_UPDATED: 'candidate.profile.updated',
+    CANDIDATE_PROFILE_COMPLETED: 'candidate.profile.completed',
+    CANDIDATE_EXPERIENCE_CREATED: 'candidate.experience.created',
+    CANDIDATE_EXPERIENCE_DELETED: 'candidate.experience.deleted',
+    CANDIDATE_EDUDCATION_CREATED: 'candidate.education.created',
+    CANDIDATE_EDUDCATION_DELETED: 'candidate.education.deleted',
+    CANDIDATE_SKILLS_UPDATED: 'candidate.skills.updated',
+    CANDIDATE_CERTIFICATION_CREATED: 'candidate.certification.created',
+    CANDIDATE_CERTIFICATION_DELETED: 'candidate.certification.deleted',
+
+    // Resume
+    CANDIDATE_RESUME_VIEWED: 'candidate.resume.viewed',
+    CANDIDATE_RESUME_SHARED: 'candidate.resume.shared',
+
     // Candidate Profile Actions
     PROFILE_CREATED: 'profile.created',
     PROFILE_UPDATED: 'profile.updated',

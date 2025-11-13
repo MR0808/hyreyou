@@ -30,7 +30,7 @@ export const VerificationEmail = ({
                 <Container style={container}>
                     <Section style={logoSection}>
                         <Img
-                            src="/images/hyreyou-20logo.png"
+                            src="/images/assets/logo.png"
                             width="200"
                             height="auto"
                             alt="HyreYou"

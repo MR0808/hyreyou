@@ -33,7 +33,7 @@ const options = {
             hash: hashPassword,
             verify: verifyPassword
         },
-        autoSignIn: false,
+        autoSignIn: true,
         requireEmailVerification: false,
         sendResetPassword: async ({ user, url }) => {
             await sendResetEmail({
@@ -72,11 +72,11 @@ const options = {
                 { user, newEmail, url, token },
                 request
             ) => {
-                await sendVerificationEmail({
-                    email: newEmail,
-                    otp: token,
-                    name: user.name
-                });
+                // await sendVerificationEmail({
+                //     email: newEmail,
+                //     otp: token,
+                //     name: user.name
+                // });
             }
         },
         additionalFields: {
@@ -85,7 +85,8 @@ const options = {
                 required: true
             },
             role: {
-                type: ['CANDIDATE', 'ADMIN', 'RECRUITER'] as Array<UserRole>
+                type: ['CANDIDATE', 'ADMIN', 'RECRUITER'] as Array<UserRole>,
+                defaultValue: 'CANDIDATE'
             },
             gender: {
                 type: ['MALE', 'FEMALE', 'OTHER', 'NOTSAY'] as Array<Gender>,
