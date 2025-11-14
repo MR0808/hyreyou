@@ -56,7 +56,9 @@ export async function getResumeData() {
                     name: `${profile.firstName} ${profile.lastName}`,
                     email: user.email,
                     phone: profile.phone,
-                    location: profile.location,
+                    city: profile.city,
+                    state: profile.state,
+                    country: profile.country,
                     headline: profile.headline,
                     linkedinUrl: profile.linkedinUrl,
                     portfolioUrl: profile.portfolioUrl
