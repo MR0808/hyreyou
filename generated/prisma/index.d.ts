@@ -16594,7 +16594,9 @@ export namespace Prisma {
     lastName: string | null
     headline: string | null
     phone: string | null
-    location: string | null
+    city: string | null
+    state: string | null
+    country: string | null
     linkedinUrl: string | null
     portfolioUrl: string | null
     summary: string | null
@@ -16616,7 +16618,9 @@ export namespace Prisma {
     lastName: string | null
     headline: string | null
     phone: string | null
-    location: string | null
+    city: string | null
+    state: string | null
+    country: string | null
     linkedinUrl: string | null
     portfolioUrl: string | null
     summary: string | null
@@ -16638,7 +16642,9 @@ export namespace Prisma {
     lastName: number
     headline: number
     phone: number
-    location: number
+    city: number
+    state: number
+    country: number
     linkedinUrl: number
     portfolioUrl: number
     summary: number
@@ -16674,7 +16680,9 @@ export namespace Prisma {
     lastName?: true
     headline?: true
     phone?: true
-    location?: true
+    city?: true
+    state?: true
+    country?: true
     linkedinUrl?: true
     portfolioUrl?: true
     summary?: true
@@ -16696,7 +16704,9 @@ export namespace Prisma {
     lastName?: true
     headline?: true
     phone?: true
-    location?: true
+    city?: true
+    state?: true
+    country?: true
     linkedinUrl?: true
     portfolioUrl?: true
     summary?: true
@@ -16718,7 +16728,9 @@ export namespace Prisma {
     lastName?: true
     headline?: true
     phone?: true
-    location?: true
+    city?: true
+    state?: true
+    country?: true
     linkedinUrl?: true
     portfolioUrl?: true
     summary?: true
@@ -16827,7 +16839,9 @@ export namespace Prisma {
     lastName: string
     headline: string | null
     phone: string | null
-    location: string | null
+    city: string | null
+    state: string | null
+    country: string | null
     linkedinUrl: string | null
     portfolioUrl: string | null
     summary: string | null
@@ -16868,7 +16882,9 @@ export namespace Prisma {
     lastName?: boolean
     headline?: boolean
     phone?: boolean
-    location?: boolean
+    city?: boolean
+    state?: boolean
+    country?: boolean
     linkedinUrl?: boolean
     portfolioUrl?: boolean
     summary?: boolean
@@ -16898,7 +16914,9 @@ export namespace Prisma {
     lastName?: boolean
     headline?: boolean
     phone?: boolean
-    location?: boolean
+    city?: boolean
+    state?: boolean
+    country?: boolean
     linkedinUrl?: boolean
     portfolioUrl?: boolean
     summary?: boolean
@@ -16921,7 +16939,9 @@ export namespace Prisma {
     lastName?: boolean
     headline?: boolean
     phone?: boolean
-    location?: boolean
+    city?: boolean
+    state?: boolean
+    country?: boolean
     linkedinUrl?: boolean
     portfolioUrl?: boolean
     summary?: boolean
@@ -16944,7 +16964,9 @@ export namespace Prisma {
     lastName?: boolean
     headline?: boolean
     phone?: boolean
-    location?: boolean
+    city?: boolean
+    state?: boolean
+    country?: boolean
     linkedinUrl?: boolean
     portfolioUrl?: boolean
     summary?: boolean
@@ -16959,7 +16981,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type CandidateProfileOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "firstName" | "lastName" | "headline" | "phone" | "location" | "linkedinUrl" | "portfolioUrl" | "summary" | "yearsExperience" | "resumeUrl" | "resumeKey" | "profileVisibility" | "searchable" | "completionScore" | "profileViews" | "createdAt" | "updatedAt", ExtArgs["result"]["candidateProfile"]>
+  export type CandidateProfileOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "firstName" | "lastName" | "headline" | "phone" | "city" | "state" | "country" | "linkedinUrl" | "portfolioUrl" | "summary" | "yearsExperience" | "resumeUrl" | "resumeKey" | "profileVisibility" | "searchable" | "completionScore" | "profileViews" | "createdAt" | "updatedAt", ExtArgs["result"]["candidateProfile"]>
   export type CandidateProfileInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     workExperience?: boolean | CandidateProfile$workExperienceArgs<ExtArgs>
@@ -16995,7 +17017,9 @@ export namespace Prisma {
       lastName: string
       headline: string | null
       phone: string | null
-      location: string | null
+      city: string | null
+      state: string | null
+      country: string | null
       linkedinUrl: string | null
       portfolioUrl: string | null
       summary: string | null
@@ -17444,7 +17468,9 @@ export namespace Prisma {
     readonly lastName: FieldRef<"CandidateProfile", 'String'>
     readonly headline: FieldRef<"CandidateProfile", 'String'>
     readonly phone: FieldRef<"CandidateProfile", 'String'>
-    readonly location: FieldRef<"CandidateProfile", 'String'>
+    readonly city: FieldRef<"CandidateProfile", 'String'>
+    readonly state: FieldRef<"CandidateProfile", 'String'>
+    readonly country: FieldRef<"CandidateProfile", 'String'>
     readonly linkedinUrl: FieldRef<"CandidateProfile", 'String'>
     readonly portfolioUrl: FieldRef<"CandidateProfile", 'String'>
     readonly summary: FieldRef<"CandidateProfile", 'String'>
@@ -18040,7 +18066,9 @@ export namespace Prisma {
     profileId: string | null
     company: string | null
     title: string | null
-    location: string | null
+    city: string | null
+    state: string | null
+    country: string | null
     startDate: Date | null
     endDate: Date | null
     current: boolean | null
@@ -18055,7 +18083,9 @@ export namespace Prisma {
     profileId: string | null
     company: string | null
     title: string | null
-    location: string | null
+    city: string | null
+    state: string | null
+    country: string | null
     startDate: Date | null
     endDate: Date | null
     current: boolean | null
@@ -18070,7 +18100,9 @@ export namespace Prisma {
     profileId: number
     company: number
     title: number
-    location: number
+    city: number
+    state: number
+    country: number
     startDate: number
     endDate: number
     current: number
@@ -18095,7 +18127,9 @@ export namespace Prisma {
     profileId?: true
     company?: true
     title?: true
-    location?: true
+    city?: true
+    state?: true
+    country?: true
     startDate?: true
     endDate?: true
     current?: true
@@ -18110,7 +18144,9 @@ export namespace Prisma {
     profileId?: true
     company?: true
     title?: true
-    location?: true
+    city?: true
+    state?: true
+    country?: true
     startDate?: true
     endDate?: true
     current?: true
@@ -18125,7 +18161,9 @@ export namespace Prisma {
     profileId?: true
     company?: true
     title?: true
-    location?: true
+    city?: true
+    state?: true
+    country?: true
     startDate?: true
     endDate?: true
     current?: true
@@ -18227,7 +18265,9 @@ export namespace Prisma {
     profileId: string
     company: string
     title: string
-    location: string | null
+    city: string | null
+    state: string | null
+    country: string | null
     startDate: Date
     endDate: Date | null
     current: boolean
@@ -18261,7 +18301,9 @@ export namespace Prisma {
     profileId?: boolean
     company?: boolean
     title?: boolean
-    location?: boolean
+    city?: boolean
+    state?: boolean
+    country?: boolean
     startDate?: boolean
     endDate?: boolean
     current?: boolean
@@ -18277,7 +18319,9 @@ export namespace Prisma {
     profileId?: boolean
     company?: boolean
     title?: boolean
-    location?: boolean
+    city?: boolean
+    state?: boolean
+    country?: boolean
     startDate?: boolean
     endDate?: boolean
     current?: boolean
@@ -18293,7 +18337,9 @@ export namespace Prisma {
     profileId?: boolean
     company?: boolean
     title?: boolean
-    location?: boolean
+    city?: boolean
+    state?: boolean
+    country?: boolean
     startDate?: boolean
     endDate?: boolean
     current?: boolean
@@ -18309,7 +18355,9 @@ export namespace Prisma {
     profileId?: boolean
     company?: boolean
     title?: boolean
-    location?: boolean
+    city?: boolean
+    state?: boolean
+    country?: boolean
     startDate?: boolean
     endDate?: boolean
     current?: boolean
@@ -18319,7 +18367,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type WorkExperienceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "profileId" | "company" | "title" | "location" | "startDate" | "endDate" | "current" | "description" | "order" | "createdAt" | "updatedAt", ExtArgs["result"]["workExperience"]>
+  export type WorkExperienceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "profileId" | "company" | "title" | "city" | "state" | "country" | "startDate" | "endDate" | "current" | "description" | "order" | "createdAt" | "updatedAt", ExtArgs["result"]["workExperience"]>
   export type WorkExperienceInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     profile?: boolean | CandidateProfileDefaultArgs<ExtArgs>
   }
@@ -18340,7 +18388,9 @@ export namespace Prisma {
       profileId: string
       company: string
       title: string
-      location: string | null
+      city: string | null
+      state: string | null
+      country: string | null
       startDate: Date
       endDate: Date | null
       current: boolean
@@ -18776,7 +18826,9 @@ export namespace Prisma {
     readonly profileId: FieldRef<"WorkExperience", 'String'>
     readonly company: FieldRef<"WorkExperience", 'String'>
     readonly title: FieldRef<"WorkExperience", 'String'>
-    readonly location: FieldRef<"WorkExperience", 'String'>
+    readonly city: FieldRef<"WorkExperience", 'String'>
+    readonly state: FieldRef<"WorkExperience", 'String'>
+    readonly country: FieldRef<"WorkExperience", 'String'>
     readonly startDate: FieldRef<"WorkExperience", 'DateTime'>
     readonly endDate: FieldRef<"WorkExperience", 'DateTime'>
     readonly current: FieldRef<"WorkExperience", 'Boolean'>
@@ -19224,6 +19276,9 @@ export namespace Prisma {
     institution: string | null
     degree: string | null
     field: string | null
+    city: string | null
+    state: string | null
+    country: string | null
     startDate: Date | null
     endDate: Date | null
     current: boolean | null
@@ -19240,6 +19295,9 @@ export namespace Prisma {
     institution: string | null
     degree: string | null
     field: string | null
+    city: string | null
+    state: string | null
+    country: string | null
     startDate: Date | null
     endDate: Date | null
     current: boolean | null
@@ -19256,6 +19314,9 @@ export namespace Prisma {
     institution: number
     degree: number
     field: number
+    city: number
+    state: number
+    country: number
     startDate: number
     endDate: number
     current: number
@@ -19282,6 +19343,9 @@ export namespace Prisma {
     institution?: true
     degree?: true
     field?: true
+    city?: true
+    state?: true
+    country?: true
     startDate?: true
     endDate?: true
     current?: true
@@ -19298,6 +19362,9 @@ export namespace Prisma {
     institution?: true
     degree?: true
     field?: true
+    city?: true
+    state?: true
+    country?: true
     startDate?: true
     endDate?: true
     current?: true
@@ -19314,6 +19381,9 @@ export namespace Prisma {
     institution?: true
     degree?: true
     field?: true
+    city?: true
+    state?: true
+    country?: true
     startDate?: true
     endDate?: true
     current?: true
@@ -19417,6 +19487,9 @@ export namespace Prisma {
     institution: string
     degree: string
     field: string | null
+    city: string | null
+    state: string | null
+    country: string | null
     startDate: Date | null
     endDate: Date | null
     current: boolean
@@ -19452,6 +19525,9 @@ export namespace Prisma {
     institution?: boolean
     degree?: boolean
     field?: boolean
+    city?: boolean
+    state?: boolean
+    country?: boolean
     startDate?: boolean
     endDate?: boolean
     current?: boolean
@@ -19469,6 +19545,9 @@ export namespace Prisma {
     institution?: boolean
     degree?: boolean
     field?: boolean
+    city?: boolean
+    state?: boolean
+    country?: boolean
     startDate?: boolean
     endDate?: boolean
     current?: boolean
@@ -19486,6 +19565,9 @@ export namespace Prisma {
     institution?: boolean
     degree?: boolean
     field?: boolean
+    city?: boolean
+    state?: boolean
+    country?: boolean
     startDate?: boolean
     endDate?: boolean
     current?: boolean
@@ -19503,6 +19585,9 @@ export namespace Prisma {
     institution?: boolean
     degree?: boolean
     field?: boolean
+    city?: boolean
+    state?: boolean
+    country?: boolean
     startDate?: boolean
     endDate?: boolean
     current?: boolean
@@ -19513,7 +19598,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type EducationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "profileId" | "institution" | "degree" | "field" | "startDate" | "endDate" | "current" | "gpa" | "description" | "order" | "createdAt" | "updatedAt", ExtArgs["result"]["education"]>
+  export type EducationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "profileId" | "institution" | "degree" | "field" | "city" | "state" | "country" | "startDate" | "endDate" | "current" | "gpa" | "description" | "order" | "createdAt" | "updatedAt", ExtArgs["result"]["education"]>
   export type EducationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     profile?: boolean | CandidateProfileDefaultArgs<ExtArgs>
   }
@@ -19535,6 +19620,9 @@ export namespace Prisma {
       institution: string
       degree: string
       field: string | null
+      city: string | null
+      state: string | null
+      country: string | null
       startDate: Date | null
       endDate: Date | null
       current: boolean
@@ -19972,6 +20060,9 @@ export namespace Prisma {
     readonly institution: FieldRef<"Education", 'String'>
     readonly degree: FieldRef<"Education", 'String'>
     readonly field: FieldRef<"Education", 'String'>
+    readonly city: FieldRef<"Education", 'String'>
+    readonly state: FieldRef<"Education", 'String'>
+    readonly country: FieldRef<"Education", 'String'>
     readonly startDate: FieldRef<"Education", 'DateTime'>
     readonly endDate: FieldRef<"Education", 'DateTime'>
     readonly current: FieldRef<"Education", 'Boolean'>
@@ -34459,7 +34550,9 @@ export namespace Prisma {
     lastName: 'lastName',
     headline: 'headline',
     phone: 'phone',
-    location: 'location',
+    city: 'city',
+    state: 'state',
+    country: 'country',
     linkedinUrl: 'linkedinUrl',
     portfolioUrl: 'portfolioUrl',
     summary: 'summary',
@@ -34482,7 +34575,9 @@ export namespace Prisma {
     profileId: 'profileId',
     company: 'company',
     title: 'title',
-    location: 'location',
+    city: 'city',
+    state: 'state',
+    country: 'country',
     startDate: 'startDate',
     endDate: 'endDate',
     current: 'current',
@@ -34501,6 +34596,9 @@ export namespace Prisma {
     institution: 'institution',
     degree: 'degree',
     field: 'field',
+    city: 'city',
+    state: 'state',
+    country: 'country',
     startDate: 'startDate',
     endDate: 'endDate',
     current: 'current',
@@ -34888,7 +34986,9 @@ export namespace Prisma {
     lastName: 'lastName',
     headline: 'headline',
     phone: 'phone',
-    location: 'location',
+    city: 'city',
+    state: 'state',
+    country: 'country',
     linkedinUrl: 'linkedinUrl',
     portfolioUrl: 'portfolioUrl',
     summary: 'summary',
@@ -34905,7 +35005,9 @@ export namespace Prisma {
     profileId: 'profileId',
     company: 'company',
     title: 'title',
-    location: 'location',
+    city: 'city',
+    state: 'state',
+    country: 'country',
     description: 'description'
   };
 
@@ -34918,6 +35020,9 @@ export namespace Prisma {
     institution: 'institution',
     degree: 'degree',
     field: 'field',
+    city: 'city',
+    state: 'state',
+    country: 'country',
     gpa: 'gpa',
     description: 'description'
   };
@@ -36211,7 +36316,9 @@ export namespace Prisma {
     lastName?: StringFilter<"CandidateProfile"> | string
     headline?: StringNullableFilter<"CandidateProfile"> | string | null
     phone?: StringNullableFilter<"CandidateProfile"> | string | null
-    location?: StringNullableFilter<"CandidateProfile"> | string | null
+    city?: StringNullableFilter<"CandidateProfile"> | string | null
+    state?: StringNullableFilter<"CandidateProfile"> | string | null
+    country?: StringNullableFilter<"CandidateProfile"> | string | null
     linkedinUrl?: StringNullableFilter<"CandidateProfile"> | string | null
     portfolioUrl?: StringNullableFilter<"CandidateProfile"> | string | null
     summary?: StringNullableFilter<"CandidateProfile"> | string | null
@@ -36240,7 +36347,9 @@ export namespace Prisma {
     lastName?: SortOrder
     headline?: SortOrderInput | SortOrder
     phone?: SortOrderInput | SortOrder
-    location?: SortOrderInput | SortOrder
+    city?: SortOrderInput | SortOrder
+    state?: SortOrderInput | SortOrder
+    country?: SortOrderInput | SortOrder
     linkedinUrl?: SortOrderInput | SortOrder
     portfolioUrl?: SortOrderInput | SortOrder
     summary?: SortOrderInput | SortOrder
@@ -36273,7 +36382,9 @@ export namespace Prisma {
     lastName?: StringFilter<"CandidateProfile"> | string
     headline?: StringNullableFilter<"CandidateProfile"> | string | null
     phone?: StringNullableFilter<"CandidateProfile"> | string | null
-    location?: StringNullableFilter<"CandidateProfile"> | string | null
+    city?: StringNullableFilter<"CandidateProfile"> | string | null
+    state?: StringNullableFilter<"CandidateProfile"> | string | null
+    country?: StringNullableFilter<"CandidateProfile"> | string | null
     linkedinUrl?: StringNullableFilter<"CandidateProfile"> | string | null
     portfolioUrl?: StringNullableFilter<"CandidateProfile"> | string | null
     summary?: StringNullableFilter<"CandidateProfile"> | string | null
@@ -36302,7 +36413,9 @@ export namespace Prisma {
     lastName?: SortOrder
     headline?: SortOrderInput | SortOrder
     phone?: SortOrderInput | SortOrder
-    location?: SortOrderInput | SortOrder
+    city?: SortOrderInput | SortOrder
+    state?: SortOrderInput | SortOrder
+    country?: SortOrderInput | SortOrder
     linkedinUrl?: SortOrderInput | SortOrder
     portfolioUrl?: SortOrderInput | SortOrder
     summary?: SortOrderInput | SortOrder
@@ -36332,7 +36445,9 @@ export namespace Prisma {
     lastName?: StringWithAggregatesFilter<"CandidateProfile"> | string
     headline?: StringNullableWithAggregatesFilter<"CandidateProfile"> | string | null
     phone?: StringNullableWithAggregatesFilter<"CandidateProfile"> | string | null
-    location?: StringNullableWithAggregatesFilter<"CandidateProfile"> | string | null
+    city?: StringNullableWithAggregatesFilter<"CandidateProfile"> | string | null
+    state?: StringNullableWithAggregatesFilter<"CandidateProfile"> | string | null
+    country?: StringNullableWithAggregatesFilter<"CandidateProfile"> | string | null
     linkedinUrl?: StringNullableWithAggregatesFilter<"CandidateProfile"> | string | null
     portfolioUrl?: StringNullableWithAggregatesFilter<"CandidateProfile"> | string | null
     summary?: StringNullableWithAggregatesFilter<"CandidateProfile"> | string | null
@@ -36355,7 +36470,9 @@ export namespace Prisma {
     profileId?: StringFilter<"WorkExperience"> | string
     company?: StringFilter<"WorkExperience"> | string
     title?: StringFilter<"WorkExperience"> | string
-    location?: StringNullableFilter<"WorkExperience"> | string | null
+    city?: StringNullableFilter<"WorkExperience"> | string | null
+    state?: StringNullableFilter<"WorkExperience"> | string | null
+    country?: StringNullableFilter<"WorkExperience"> | string | null
     startDate?: DateTimeFilter<"WorkExperience"> | Date | string
     endDate?: DateTimeNullableFilter<"WorkExperience"> | Date | string | null
     current?: BoolFilter<"WorkExperience"> | boolean
@@ -36371,7 +36488,9 @@ export namespace Prisma {
     profileId?: SortOrder
     company?: SortOrder
     title?: SortOrder
-    location?: SortOrderInput | SortOrder
+    city?: SortOrderInput | SortOrder
+    state?: SortOrderInput | SortOrder
+    country?: SortOrderInput | SortOrder
     startDate?: SortOrder
     endDate?: SortOrderInput | SortOrder
     current?: SortOrder
@@ -36391,7 +36510,9 @@ export namespace Prisma {
     profileId?: StringFilter<"WorkExperience"> | string
     company?: StringFilter<"WorkExperience"> | string
     title?: StringFilter<"WorkExperience"> | string
-    location?: StringNullableFilter<"WorkExperience"> | string | null
+    city?: StringNullableFilter<"WorkExperience"> | string | null
+    state?: StringNullableFilter<"WorkExperience"> | string | null
+    country?: StringNullableFilter<"WorkExperience"> | string | null
     startDate?: DateTimeFilter<"WorkExperience"> | Date | string
     endDate?: DateTimeNullableFilter<"WorkExperience"> | Date | string | null
     current?: BoolFilter<"WorkExperience"> | boolean
@@ -36407,7 +36528,9 @@ export namespace Prisma {
     profileId?: SortOrder
     company?: SortOrder
     title?: SortOrder
-    location?: SortOrderInput | SortOrder
+    city?: SortOrderInput | SortOrder
+    state?: SortOrderInput | SortOrder
+    country?: SortOrderInput | SortOrder
     startDate?: SortOrder
     endDate?: SortOrderInput | SortOrder
     current?: SortOrder
@@ -36430,7 +36553,9 @@ export namespace Prisma {
     profileId?: StringWithAggregatesFilter<"WorkExperience"> | string
     company?: StringWithAggregatesFilter<"WorkExperience"> | string
     title?: StringWithAggregatesFilter<"WorkExperience"> | string
-    location?: StringNullableWithAggregatesFilter<"WorkExperience"> | string | null
+    city?: StringNullableWithAggregatesFilter<"WorkExperience"> | string | null
+    state?: StringNullableWithAggregatesFilter<"WorkExperience"> | string | null
+    country?: StringNullableWithAggregatesFilter<"WorkExperience"> | string | null
     startDate?: DateTimeWithAggregatesFilter<"WorkExperience"> | Date | string
     endDate?: DateTimeNullableWithAggregatesFilter<"WorkExperience"> | Date | string | null
     current?: BoolWithAggregatesFilter<"WorkExperience"> | boolean
@@ -36449,6 +36574,9 @@ export namespace Prisma {
     institution?: StringFilter<"Education"> | string
     degree?: StringFilter<"Education"> | string
     field?: StringNullableFilter<"Education"> | string | null
+    city?: StringNullableFilter<"Education"> | string | null
+    state?: StringNullableFilter<"Education"> | string | null
+    country?: StringNullableFilter<"Education"> | string | null
     startDate?: DateTimeNullableFilter<"Education"> | Date | string | null
     endDate?: DateTimeNullableFilter<"Education"> | Date | string | null
     current?: BoolFilter<"Education"> | boolean
@@ -36466,6 +36594,9 @@ export namespace Prisma {
     institution?: SortOrder
     degree?: SortOrder
     field?: SortOrderInput | SortOrder
+    city?: SortOrderInput | SortOrder
+    state?: SortOrderInput | SortOrder
+    country?: SortOrderInput | SortOrder
     startDate?: SortOrderInput | SortOrder
     endDate?: SortOrderInput | SortOrder
     current?: SortOrder
@@ -36487,6 +36618,9 @@ export namespace Prisma {
     institution?: StringFilter<"Education"> | string
     degree?: StringFilter<"Education"> | string
     field?: StringNullableFilter<"Education"> | string | null
+    city?: StringNullableFilter<"Education"> | string | null
+    state?: StringNullableFilter<"Education"> | string | null
+    country?: StringNullableFilter<"Education"> | string | null
     startDate?: DateTimeNullableFilter<"Education"> | Date | string | null
     endDate?: DateTimeNullableFilter<"Education"> | Date | string | null
     current?: BoolFilter<"Education"> | boolean
@@ -36504,6 +36638,9 @@ export namespace Prisma {
     institution?: SortOrder
     degree?: SortOrder
     field?: SortOrderInput | SortOrder
+    city?: SortOrderInput | SortOrder
+    state?: SortOrderInput | SortOrder
+    country?: SortOrderInput | SortOrder
     startDate?: SortOrderInput | SortOrder
     endDate?: SortOrderInput | SortOrder
     current?: SortOrder
@@ -36528,6 +36665,9 @@ export namespace Prisma {
     institution?: StringWithAggregatesFilter<"Education"> | string
     degree?: StringWithAggregatesFilter<"Education"> | string
     field?: StringNullableWithAggregatesFilter<"Education"> | string | null
+    city?: StringNullableWithAggregatesFilter<"Education"> | string | null
+    state?: StringNullableWithAggregatesFilter<"Education"> | string | null
+    country?: StringNullableWithAggregatesFilter<"Education"> | string | null
     startDate?: DateTimeNullableWithAggregatesFilter<"Education"> | Date | string | null
     endDate?: DateTimeNullableWithAggregatesFilter<"Education"> | Date | string | null
     current?: BoolWithAggregatesFilter<"Education"> | boolean
@@ -38632,7 +38772,9 @@ export namespace Prisma {
     lastName: string
     headline?: string | null
     phone?: string | null
-    location?: string | null
+    city?: string | null
+    state?: string | null
+    country?: string | null
     linkedinUrl?: string | null
     portfolioUrl?: string | null
     summary?: string | null
@@ -38661,7 +38803,9 @@ export namespace Prisma {
     lastName: string
     headline?: string | null
     phone?: string | null
-    location?: string | null
+    city?: string | null
+    state?: string | null
+    country?: string | null
     linkedinUrl?: string | null
     portfolioUrl?: string | null
     summary?: string | null
@@ -38688,7 +38832,9 @@ export namespace Prisma {
     lastName?: StringFieldUpdateOperationsInput | string
     headline?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
-    location?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
     portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
     summary?: NullableStringFieldUpdateOperationsInput | string | null
@@ -38717,7 +38863,9 @@ export namespace Prisma {
     lastName?: StringFieldUpdateOperationsInput | string
     headline?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
-    location?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
     portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
     summary?: NullableStringFieldUpdateOperationsInput | string | null
@@ -38745,7 +38893,9 @@ export namespace Prisma {
     lastName: string
     headline?: string | null
     phone?: string | null
-    location?: string | null
+    city?: string | null
+    state?: string | null
+    country?: string | null
     linkedinUrl?: string | null
     portfolioUrl?: string | null
     summary?: string | null
@@ -38766,7 +38916,9 @@ export namespace Prisma {
     lastName?: StringFieldUpdateOperationsInput | string
     headline?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
-    location?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
     portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
     summary?: NullableStringFieldUpdateOperationsInput | string | null
@@ -38788,7 +38940,9 @@ export namespace Prisma {
     lastName?: StringFieldUpdateOperationsInput | string
     headline?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
-    location?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
     portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
     summary?: NullableStringFieldUpdateOperationsInput | string | null
@@ -38807,7 +38961,9 @@ export namespace Prisma {
     id?: string
     company: string
     title: string
-    location?: string | null
+    city?: string | null
+    state?: string | null
+    country?: string | null
     startDate: Date | string
     endDate?: Date | string | null
     current?: boolean
@@ -38823,7 +38979,9 @@ export namespace Prisma {
     profileId: string
     company: string
     title: string
-    location?: string | null
+    city?: string | null
+    state?: string | null
+    country?: string | null
     startDate: Date | string
     endDate?: Date | string | null
     current?: boolean
@@ -38837,7 +38995,9 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     company?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
-    location?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     current?: BoolFieldUpdateOperationsInput | boolean
@@ -38853,7 +39013,9 @@ export namespace Prisma {
     profileId?: StringFieldUpdateOperationsInput | string
     company?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
-    location?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     current?: BoolFieldUpdateOperationsInput | boolean
@@ -38868,7 +39030,9 @@ export namespace Prisma {
     profileId: string
     company: string
     title: string
-    location?: string | null
+    city?: string | null
+    state?: string | null
+    country?: string | null
     startDate: Date | string
     endDate?: Date | string | null
     current?: boolean
@@ -38882,7 +39046,9 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     company?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
-    location?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     current?: BoolFieldUpdateOperationsInput | boolean
@@ -38897,7 +39063,9 @@ export namespace Prisma {
     profileId?: StringFieldUpdateOperationsInput | string
     company?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
-    location?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     current?: BoolFieldUpdateOperationsInput | boolean
@@ -38912,6 +39080,9 @@ export namespace Prisma {
     institution: string
     degree: string
     field?: string | null
+    city?: string | null
+    state?: string | null
+    country?: string | null
     startDate?: Date | string | null
     endDate?: Date | string | null
     current?: boolean
@@ -38929,6 +39100,9 @@ export namespace Prisma {
     institution: string
     degree: string
     field?: string | null
+    city?: string | null
+    state?: string | null
+    country?: string | null
     startDate?: Date | string | null
     endDate?: Date | string | null
     current?: boolean
@@ -38944,6 +39118,9 @@ export namespace Prisma {
     institution?: StringFieldUpdateOperationsInput | string
     degree?: StringFieldUpdateOperationsInput | string
     field?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     current?: BoolFieldUpdateOperationsInput | boolean
@@ -38961,6 +39138,9 @@ export namespace Prisma {
     institution?: StringFieldUpdateOperationsInput | string
     degree?: StringFieldUpdateOperationsInput | string
     field?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     current?: BoolFieldUpdateOperationsInput | boolean
@@ -38977,6 +39157,9 @@ export namespace Prisma {
     institution: string
     degree: string
     field?: string | null
+    city?: string | null
+    state?: string | null
+    country?: string | null
     startDate?: Date | string | null
     endDate?: Date | string | null
     current?: boolean
@@ -38992,6 +39175,9 @@ export namespace Prisma {
     institution?: StringFieldUpdateOperationsInput | string
     degree?: StringFieldUpdateOperationsInput | string
     field?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     current?: BoolFieldUpdateOperationsInput | boolean
@@ -39008,6 +39194,9 @@ export namespace Prisma {
     institution?: StringFieldUpdateOperationsInput | string
     degree?: StringFieldUpdateOperationsInput | string
     field?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     current?: BoolFieldUpdateOperationsInput | boolean
@@ -41230,7 +41419,9 @@ export namespace Prisma {
     lastName?: SortOrder
     headline?: SortOrder
     phone?: SortOrder
-    location?: SortOrder
+    city?: SortOrder
+    state?: SortOrder
+    country?: SortOrder
     linkedinUrl?: SortOrder
     portfolioUrl?: SortOrder
     summary?: SortOrder
@@ -41258,7 +41449,9 @@ export namespace Prisma {
     lastName?: SortOrder
     headline?: SortOrder
     phone?: SortOrder
-    location?: SortOrder
+    city?: SortOrder
+    state?: SortOrder
+    country?: SortOrder
     linkedinUrl?: SortOrder
     portfolioUrl?: SortOrder
     summary?: SortOrder
@@ -41280,7 +41473,9 @@ export namespace Prisma {
     lastName?: SortOrder
     headline?: SortOrder
     phone?: SortOrder
-    location?: SortOrder
+    city?: SortOrder
+    state?: SortOrder
+    country?: SortOrder
     linkedinUrl?: SortOrder
     portfolioUrl?: SortOrder
     summary?: SortOrder
@@ -41317,7 +41512,9 @@ export namespace Prisma {
     profileId?: SortOrder
     company?: SortOrder
     title?: SortOrder
-    location?: SortOrder
+    city?: SortOrder
+    state?: SortOrder
+    country?: SortOrder
     startDate?: SortOrder
     endDate?: SortOrder
     current?: SortOrder
@@ -41336,7 +41533,9 @@ export namespace Prisma {
     profileId?: SortOrder
     company?: SortOrder
     title?: SortOrder
-    location?: SortOrder
+    city?: SortOrder
+    state?: SortOrder
+    country?: SortOrder
     startDate?: SortOrder
     endDate?: SortOrder
     current?: SortOrder
@@ -41351,7 +41550,9 @@ export namespace Prisma {
     profileId?: SortOrder
     company?: SortOrder
     title?: SortOrder
-    location?: SortOrder
+    city?: SortOrder
+    state?: SortOrder
+    country?: SortOrder
     startDate?: SortOrder
     endDate?: SortOrder
     current?: SortOrder
@@ -41377,6 +41578,9 @@ export namespace Prisma {
     institution?: SortOrder
     degree?: SortOrder
     field?: SortOrder
+    city?: SortOrder
+    state?: SortOrder
+    country?: SortOrder
     startDate?: SortOrder
     endDate?: SortOrder
     current?: SortOrder
@@ -41397,6 +41601,9 @@ export namespace Prisma {
     institution?: SortOrder
     degree?: SortOrder
     field?: SortOrder
+    city?: SortOrder
+    state?: SortOrder
+    country?: SortOrder
     startDate?: SortOrder
     endDate?: SortOrder
     current?: SortOrder
@@ -41413,6 +41620,9 @@ export namespace Prisma {
     institution?: SortOrder
     degree?: SortOrder
     field?: SortOrder
+    city?: SortOrder
+    state?: SortOrder
+    country?: SortOrder
     startDate?: SortOrder
     endDate?: SortOrder
     current?: SortOrder
@@ -44218,7 +44428,9 @@ export namespace Prisma {
     lastName: string
     headline?: string | null
     phone?: string | null
-    location?: string | null
+    city?: string | null
+    state?: string | null
+    country?: string | null
     linkedinUrl?: string | null
     portfolioUrl?: string | null
     summary?: string | null
@@ -44245,7 +44457,9 @@ export namespace Prisma {
     lastName: string
     headline?: string | null
     phone?: string | null
-    location?: string | null
+    city?: string | null
+    state?: string | null
+    country?: string | null
     linkedinUrl?: string | null
     portfolioUrl?: string | null
     summary?: string | null
@@ -44625,7 +44839,9 @@ export namespace Prisma {
     lastName?: StringFieldUpdateOperationsInput | string
     headline?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
-    location?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
     portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
     summary?: NullableStringFieldUpdateOperationsInput | string | null
@@ -44652,7 +44868,9 @@ export namespace Prisma {
     lastName?: StringFieldUpdateOperationsInput | string
     headline?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
-    location?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
     portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
     summary?: NullableStringFieldUpdateOperationsInput | string | null
@@ -46274,7 +46492,9 @@ export namespace Prisma {
     id?: string
     company: string
     title: string
-    location?: string | null
+    city?: string | null
+    state?: string | null
+    country?: string | null
     startDate: Date | string
     endDate?: Date | string | null
     current?: boolean
@@ -46288,7 +46508,9 @@ export namespace Prisma {
     id?: string
     company: string
     title: string
-    location?: string | null
+    city?: string | null
+    state?: string | null
+    country?: string | null
     startDate: Date | string
     endDate?: Date | string | null
     current?: boolean
@@ -46313,6 +46535,9 @@ export namespace Prisma {
     institution: string
     degree: string
     field?: string | null
+    city?: string | null
+    state?: string | null
+    country?: string | null
     startDate?: Date | string | null
     endDate?: Date | string | null
     current?: boolean
@@ -46328,6 +46553,9 @@ export namespace Prisma {
     institution: string
     degree: string
     field?: string | null
+    city?: string | null
+    state?: string | null
+    country?: string | null
     startDate?: Date | string | null
     endDate?: Date | string | null
     current?: boolean
@@ -46593,7 +46821,9 @@ export namespace Prisma {
     profileId?: StringFilter<"WorkExperience"> | string
     company?: StringFilter<"WorkExperience"> | string
     title?: StringFilter<"WorkExperience"> | string
-    location?: StringNullableFilter<"WorkExperience"> | string | null
+    city?: StringNullableFilter<"WorkExperience"> | string | null
+    state?: StringNullableFilter<"WorkExperience"> | string | null
+    country?: StringNullableFilter<"WorkExperience"> | string | null
     startDate?: DateTimeFilter<"WorkExperience"> | Date | string
     endDate?: DateTimeNullableFilter<"WorkExperience"> | Date | string | null
     current?: BoolFilter<"WorkExperience"> | boolean
@@ -46628,6 +46858,9 @@ export namespace Prisma {
     institution?: StringFilter<"Education"> | string
     degree?: StringFilter<"Education"> | string
     field?: StringNullableFilter<"Education"> | string | null
+    city?: StringNullableFilter<"Education"> | string | null
+    state?: StringNullableFilter<"Education"> | string | null
+    country?: StringNullableFilter<"Education"> | string | null
     startDate?: DateTimeNullableFilter<"Education"> | Date | string | null
     endDate?: DateTimeNullableFilter<"Education"> | Date | string | null
     current?: BoolFilter<"Education"> | boolean
@@ -46779,7 +47012,9 @@ export namespace Prisma {
     lastName: string
     headline?: string | null
     phone?: string | null
-    location?: string | null
+    city?: string | null
+    state?: string | null
+    country?: string | null
     linkedinUrl?: string | null
     portfolioUrl?: string | null
     summary?: string | null
@@ -46807,7 +47042,9 @@ export namespace Prisma {
     lastName: string
     headline?: string | null
     phone?: string | null
-    location?: string | null
+    city?: string | null
+    state?: string | null
+    country?: string | null
     linkedinUrl?: string | null
     portfolioUrl?: string | null
     summary?: string | null
@@ -46849,7 +47086,9 @@ export namespace Prisma {
     lastName?: StringFieldUpdateOperationsInput | string
     headline?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
-    location?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
     portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
     summary?: NullableStringFieldUpdateOperationsInput | string | null
@@ -46877,7 +47116,9 @@ export namespace Prisma {
     lastName?: StringFieldUpdateOperationsInput | string
     headline?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
-    location?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
     portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
     summary?: NullableStringFieldUpdateOperationsInput | string | null
@@ -46903,7 +47144,9 @@ export namespace Prisma {
     lastName: string
     headline?: string | null
     phone?: string | null
-    location?: string | null
+    city?: string | null
+    state?: string | null
+    country?: string | null
     linkedinUrl?: string | null
     portfolioUrl?: string | null
     summary?: string | null
@@ -46931,7 +47174,9 @@ export namespace Prisma {
     lastName: string
     headline?: string | null
     phone?: string | null
-    location?: string | null
+    city?: string | null
+    state?: string | null
+    country?: string | null
     linkedinUrl?: string | null
     portfolioUrl?: string | null
     summary?: string | null
@@ -46973,7 +47218,9 @@ export namespace Prisma {
     lastName?: StringFieldUpdateOperationsInput | string
     headline?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
-    location?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
     portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
     summary?: NullableStringFieldUpdateOperationsInput | string | null
@@ -47001,7 +47248,9 @@ export namespace Prisma {
     lastName?: StringFieldUpdateOperationsInput | string
     headline?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
-    location?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
     portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
     summary?: NullableStringFieldUpdateOperationsInput | string | null
@@ -47122,7 +47371,9 @@ export namespace Prisma {
     lastName: string
     headline?: string | null
     phone?: string | null
-    location?: string | null
+    city?: string | null
+    state?: string | null
+    country?: string | null
     linkedinUrl?: string | null
     portfolioUrl?: string | null
     summary?: string | null
@@ -47150,7 +47401,9 @@ export namespace Prisma {
     lastName: string
     headline?: string | null
     phone?: string | null
-    location?: string | null
+    city?: string | null
+    state?: string | null
+    country?: string | null
     linkedinUrl?: string | null
     portfolioUrl?: string | null
     summary?: string | null
@@ -47211,7 +47464,9 @@ export namespace Prisma {
     lastName?: StringFieldUpdateOperationsInput | string
     headline?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
-    location?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
     portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
     summary?: NullableStringFieldUpdateOperationsInput | string | null
@@ -47239,7 +47494,9 @@ export namespace Prisma {
     lastName?: StringFieldUpdateOperationsInput | string
     headline?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
-    location?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
     portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
     summary?: NullableStringFieldUpdateOperationsInput | string | null
@@ -47290,7 +47547,9 @@ export namespace Prisma {
     lastName: string
     headline?: string | null
     phone?: string | null
-    location?: string | null
+    city?: string | null
+    state?: string | null
+    country?: string | null
     linkedinUrl?: string | null
     portfolioUrl?: string | null
     summary?: string | null
@@ -47318,7 +47577,9 @@ export namespace Prisma {
     lastName: string
     headline?: string | null
     phone?: string | null
-    location?: string | null
+    city?: string | null
+    state?: string | null
+    country?: string | null
     linkedinUrl?: string | null
     portfolioUrl?: string | null
     summary?: string | null
@@ -47360,7 +47621,9 @@ export namespace Prisma {
     lastName?: StringFieldUpdateOperationsInput | string
     headline?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
-    location?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
     portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
     summary?: NullableStringFieldUpdateOperationsInput | string | null
@@ -47388,7 +47651,9 @@ export namespace Prisma {
     lastName?: StringFieldUpdateOperationsInput | string
     headline?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
-    location?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
     portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
     summary?: NullableStringFieldUpdateOperationsInput | string | null
@@ -48422,7 +48687,9 @@ export namespace Prisma {
     lastName: string
     headline?: string | null
     phone?: string | null
-    location?: string | null
+    city?: string | null
+    state?: string | null
+    country?: string | null
     linkedinUrl?: string | null
     portfolioUrl?: string | null
     summary?: string | null
@@ -48450,7 +48717,9 @@ export namespace Prisma {
     lastName: string
     headline?: string | null
     phone?: string | null
-    location?: string | null
+    city?: string | null
+    state?: string | null
+    country?: string | null
     linkedinUrl?: string | null
     portfolioUrl?: string | null
     summary?: string | null
@@ -48553,7 +48822,9 @@ export namespace Prisma {
     lastName?: StringFieldUpdateOperationsInput | string
     headline?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
-    location?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
     portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
     summary?: NullableStringFieldUpdateOperationsInput | string | null
@@ -48581,7 +48852,9 @@ export namespace Prisma {
     lastName?: StringFieldUpdateOperationsInput | string
     headline?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
-    location?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
     portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
     summary?: NullableStringFieldUpdateOperationsInput | string | null
@@ -48607,7 +48880,9 @@ export namespace Prisma {
     lastName: string
     headline?: string | null
     phone?: string | null
-    location?: string | null
+    city?: string | null
+    state?: string | null
+    country?: string | null
     linkedinUrl?: string | null
     portfolioUrl?: string | null
     summary?: string | null
@@ -48635,7 +48910,9 @@ export namespace Prisma {
     lastName: string
     headline?: string | null
     phone?: string | null
-    location?: string | null
+    city?: string | null
+    state?: string | null
+    country?: string | null
     linkedinUrl?: string | null
     portfolioUrl?: string | null
     summary?: string | null
@@ -48677,7 +48954,9 @@ export namespace Prisma {
     lastName?: StringFieldUpdateOperationsInput | string
     headline?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
-    location?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
     portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
     summary?: NullableStringFieldUpdateOperationsInput | string | null
@@ -48705,7 +48984,9 @@ export namespace Prisma {
     lastName?: StringFieldUpdateOperationsInput | string
     headline?: NullableStringFieldUpdateOperationsInput | string | null
     phone?: NullableStringFieldUpdateOperationsInput | string | null
-    location?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
     linkedinUrl?: NullableStringFieldUpdateOperationsInput | string | null
     portfolioUrl?: NullableStringFieldUpdateOperationsInput | string | null
     summary?: NullableStringFieldUpdateOperationsInput | string | null
@@ -49721,7 +50002,9 @@ export namespace Prisma {
     id?: string
     company: string
     title: string
-    location?: string | null
+    city?: string | null
+    state?: string | null
+    country?: string | null
     startDate: Date | string
     endDate?: Date | string | null
     current?: boolean
@@ -49736,6 +50019,9 @@ export namespace Prisma {
     institution: string
     degree: string
     field?: string | null
+    city?: string | null
+    state?: string | null
+    country?: string | null
     startDate?: Date | string | null
     endDate?: Date | string | null
     current?: boolean
@@ -49805,7 +50091,9 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     company?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
-    location?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     current?: BoolFieldUpdateOperationsInput | boolean
@@ -49819,7 +50107,9 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     company?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
-    location?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     current?: BoolFieldUpdateOperationsInput | boolean
@@ -49833,7 +50123,9 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     company?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
-    location?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     current?: BoolFieldUpdateOperationsInput | boolean
@@ -49848,6 +50140,9 @@ export namespace Prisma {
     institution?: StringFieldUpdateOperationsInput | string
     degree?: StringFieldUpdateOperationsInput | string
     field?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     current?: BoolFieldUpdateOperationsInput | boolean
@@ -49863,6 +50158,9 @@ export namespace Prisma {
     institution?: StringFieldUpdateOperationsInput | string
     degree?: StringFieldUpdateOperationsInput | string
     field?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     current?: BoolFieldUpdateOperationsInput | boolean
@@ -49878,6 +50176,9 @@ export namespace Prisma {
     institution?: StringFieldUpdateOperationsInput | string
     degree?: StringFieldUpdateOperationsInput | string
     field?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: NullableStringFieldUpdateOperationsInput | string | null
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     current?: BoolFieldUpdateOperationsInput | boolean

@@ -19,7 +19,6 @@ import {
 } from '@/schemas/onboarding';
 import { createAuditLog } from '@/lib/audit/logger';
 import { getAuthUser } from '@/lib/authCheck';
-import { formatLocation } from '@/lib/formatLocation';
 
 export const saveBasicDetails = async (data: BasicDetailsInput) => {
     try {
@@ -39,11 +38,9 @@ export const saveBasicDetails = async (data: BasicDetailsInput) => {
                     firstName: validated.firstName,
                     lastName: validated.lastName,
                     headline: validated.headline,
-                    location: formatLocation({
-                        city: validated.city,
-                        state: validated.state,
-                        country: validated.country
-                    }),
+                    city: validated.city,
+                    state: validated.state,
+                    country: validated.country,
                     phone: validated.phone,
                     completionScore: calculateCompletionScore({
                         basicDetails: true
@@ -57,11 +54,9 @@ export const saveBasicDetails = async (data: BasicDetailsInput) => {
                     firstName: validated.firstName,
                     lastName: validated.lastName,
                     headline: validated.headline,
-                    location: formatLocation({
-                        city: validated.city,
-                        state: validated.state,
-                        country: validated.country
-                    }),
+                    city: validated.city,
+                    state: validated.state,
+                    country: validated.country,
                     phone: validated.phone,
                     completionScore: calculateCompletionScore({
                         basicDetails: true
@@ -108,7 +103,9 @@ export const addWorkExperience = async (data: WorkExperienceInput) => {
                 profileId: profile.id,
                 company: validated.company,
                 title: validated.title,
-                location: validated.location,
+                city: validated.city,
+                state: validated.state,
+                country: validated.country,
                 startDate: new Date(validated.startDate),
                 endDate: validated.endDate ? new Date(validated.endDate) : null,
                 current: validated.current,
@@ -206,6 +203,9 @@ export const addEducation = async (data: EducationInput) => {
                 institution: validated.institution,
                 degree: validated.degree,
                 field: validated.field,
+                city: validated.city,
+                state: validated.state,
+                country: validated.country,
                 startDate: validated.startDate
                     ? new Date(validated.startDate)
                     : null,
@@ -536,7 +536,8 @@ export const getOnboardingProgress = async () => {
 
         // Determine current step based on completion
         let currentStep = 1;
-        if (profile.headline && profile.location) currentStep = 2;
+        if (profile.headline && profile.city && profile.country)
+            currentStep = 2;
         if (profile.workExperience.length > 0) currentStep = 3;
         if (profile.education.length > 0) currentStep = 4;
         if (profile.skills.length > 0) currentStep = 5;

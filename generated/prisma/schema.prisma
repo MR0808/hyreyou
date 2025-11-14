@@ -293,7 +293,9 @@ model CandidateProfile {
   lastName     String
   headline     String?
   phone        String?
-  location     String?
+  city         String?
+  state        String?
+  country      String?
   linkedinUrl  String?
   portfolioUrl String?
 
@@ -334,7 +336,9 @@ model WorkExperience {
 
   company     String
   title       String
-  location    String?
+  city        String?
+  state       String?
+  country     String?
   startDate   DateTime
   endDate     DateTime?
   current     Boolean   @default(false)
@@ -355,6 +359,9 @@ model Education {
   institution String
   degree      String
   field       String?
+  city        String?
+  state       String?
+  country     String?
   startDate   DateTime?
   endDate     DateTime?
   current     Boolean   @default(false)

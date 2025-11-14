@@ -27,7 +27,7 @@ export const workExperienceSchema = z.object({
     country: z.string().optional(),
     startDate: z.string().min(1, 'Start date is required'),
     endDate: z.string().optional(),
-    current: z.boolean().default(false),
+    current: z.boolean(),
     description: z.string().optional()
 });
 
@@ -40,7 +40,7 @@ export const educationSchema = z.object({
     country: z.string().optional(),
     startDate: z.string().optional(),
     endDate: z.string().optional(),
-    current: z.boolean().default(false),
+    current: z.boolean(),
     gpa: z.string().optional(),
     description: z.string().optional()
 });
@@ -69,10 +69,8 @@ export const certificationSchema = z.object({
 
 export const profilePhotoSchema = z.object({
     image: z.string().optional(),
-    profileVisibility: z
-        .enum(['public', 'private', 'recruiter-only'])
-        .default('public'),
-    searchable: z.boolean().default(true)
+    profileVisibility: z.enum(['public', 'private', 'recruiter-only']),
+    searchable: z.boolean()
 });
 
 export type BasicDetailsInput = z.infer<typeof basicDetailsSchema>;

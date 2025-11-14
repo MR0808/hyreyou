@@ -21,9 +21,9 @@ import {
     FormMessage
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from '@/components/ui/checkbox';
 import { LocationInput } from '@/components/ui/location-input';
+import { RichTextEditor } from '@/components/ui/rich-text-editor';
 import {
     Dialog,
     DialogContent,
@@ -112,7 +112,7 @@ const ExperienceStep = ({
                             Add Experience
                         </Button>
                     </DialogTrigger>
-                    <DialogContent className="max-w-2xl">
+                    <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
                         <DialogHeader>
                             <DialogTitle>Add Work Experience</DialogTitle>
                         </DialogHeader>
@@ -273,10 +273,11 @@ const ExperienceStep = ({
                                                 Description (Optional)
                                             </FormLabel>
                                             <FormControl>
-                                                <Textarea
-                                                    placeholder="Describe your responsibilities and achievements..."
-                                                    rows={4}
-                                                    {...field}
+                                                <RichTextEditor
+                                                    value={field.value || ''}
+                                                    onChange={field.onChange}
+                                                    placeholder="Describe your responsibilities and achievements... Use bullet points for better readability."
+                                                    className="min-h-[150px]"
                                                 />
                                             </FormControl>
                                             <FormMessage />
@@ -352,9 +353,12 @@ const ExperienceStep = ({
                                         ` • ${[exp.city, exp.state, exp.country].filter(Boolean).join(', ')}`}
                                 </p>
                                 {exp.description && (
-                                    <p className="text-sm text-slate-600 mt-2">
-                                        {exp.description}
-                                    </p>
+                                    <div
+                                        className="text-sm text-slate-600 mt-2 prose prose-sm max-w-none"
+                                        dangerouslySetInnerHTML={{
+                                            __html: exp.description
+                                        }}
+                                    />
                                 )}
                             </div>
                             <Button
