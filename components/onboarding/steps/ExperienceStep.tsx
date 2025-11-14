@@ -10,7 +10,11 @@ import {
     workExperienceSchema,
     type WorkExperienceInput
 } from '@/schemas/onboarding';
-import { addWorkExperience, deleteWorkExperience } from '@/actions/onboarding';
+import {
+    addWorkExperience,
+    deleteWorkExperience,
+    updateWorkExperience
+} from '@/actions/onboarding';
 import { Button } from '@/components/ui/button';
 import {
     Form,
@@ -43,6 +47,8 @@ const ExperienceStep = ({
     const [experiences, setExperiences] = useState(
         profile?.workExperience || []
     );
+    const [isCurrent, setIsCurrent] = useState(false);
+    const [editingExperience, setEditingExperience] = useState<any>(null);
 
     const form = useForm<WorkExperienceInput>({
         resolver: zodResolver(workExperienceSchema),
@@ -59,20 +65,85 @@ const ExperienceStep = ({
         }
     });
 
-    const isCurrent = form.getValues('current');
+    const handleDialogChange = (open: boolean) => {
+        setIsDialogOpen(open);
+        if (!open) {
+            form.reset();
+            setIsCurrent(false);
+            setEditingExperience(null);
+        }
+    };
+
+    const handleEdit = (exp: any) => {
+        setEditingExperience(exp);
+        const formatDateForMonthInput = (dateString: string) => {
+            if (!dateString) return '';
+            const date = new Date(dateString);
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            return `${year}-${month}`;
+        };
+
+        form.reset({
+            company: exp.company,
+            title: exp.title,
+            city: exp.city || '',
+            state: exp.state || '',
+            country: exp.country || '',
+            startDate: formatDateForMonthInput(exp.startDate),
+            endDate: exp.endDate ? formatDateForMonthInput(exp.endDate) : '',
+            current: exp.current,
+            description: exp.description || ''
+        });
+        setIsCurrent(exp.current);
+        setIsDialogOpen(true);
+    };
+
+    const sortedExperiences = [...experiences].sort((a, b) => {
+        // Current positions come first
+        if (a.current && !b.current) return -1;
+        if (!a.current && b.current) return 1;
+
+        // Both current or both not current, sort by end date
+        const aDate = a.current ? new Date() : new Date(a.endDate);
+        const bDate = b.current ? new Date() : new Date(b.endDate);
+
+        return bDate.getTime() - aDate.getTime();
+    });
 
     function onSubmit(data: WorkExperienceInput) {
         startTransition(async () => {
-            const result = await addWorkExperience(data);
+            const result = editingExperience
+                ? await updateWorkExperience(editingExperience.id, data)
+                : await addWorkExperience(data);
 
             if (result.success) {
-                toast.success('Work experience added!');
+                toast.success(
+                    editingExperience
+                        ? 'Work experience updated!'
+                        : 'Work experience added!'
+                );
                 setIsDialogOpen(false);
                 form.reset();
-                // Refresh the page to get updated experiences
-                window.location.reload();
+                if (result.data) {
+                    if (editingExperience) {
+                        setExperiences(
+                            experiences.map((exp: any) =>
+                                exp.id === editingExperience.id
+                                    ? result.data
+                                    : exp
+                            )
+                        );
+                    } else {
+                        setExperiences([...experiences, result.data]);
+                    }
+                }
+                setEditingExperience(null);
             } else {
-                toast.error(result.error || 'Failed to add experience');
+                toast.error(
+                    result.error ||
+                        `Failed to ${editingExperience ? 'update' : 'add'} experience`
+                );
             }
         });
     }
@@ -105,7 +176,7 @@ const ExperienceStep = ({
                     </p>
                 </div>
 
-                <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+                <Dialog open={isDialogOpen} onOpenChange={handleDialogChange}>
                     <DialogTrigger asChild>
                         <Button>
                             <Plus className="w-4 h-4 mr-2" />
@@ -114,7 +185,11 @@ const ExperienceStep = ({
                     </DialogTrigger>
                     <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
                         <DialogHeader>
-                            <DialogTitle>Add Work Experience</DialogTitle>
+                            <DialogTitle>
+                                {editingExperience
+                                    ? 'Edit Work Experience'
+                                    : 'Add Work Experience'}
+                            </DialogTitle>
                         </DialogHeader>
 
                         <Form {...form}>
@@ -216,6 +291,9 @@ const ExperienceStep = ({
                                                     <Input
                                                         type="month"
                                                         {...field}
+                                                        max={new Date()
+                                                            .toISOString()
+                                                            .slice(0, 7)}
                                                     />
                                                 </FormControl>
                                                 <FormMessage />
@@ -232,8 +310,11 @@ const ExperienceStep = ({
                                                 <FormControl>
                                                     <Input
                                                         type="month"
-                                                        disabled={isCurrent}
                                                         {...field}
+                                                        disabled={isCurrent}
+                                                        max={new Date()
+                                                            .toISOString()
+                                                            .slice(0, 7)}
                                                     />
                                                 </FormControl>
                                                 <FormMessage />
@@ -250,9 +331,14 @@ const ExperienceStep = ({
                                             <FormControl>
                                                 <Checkbox
                                                     checked={field.value}
-                                                    onCheckedChange={
-                                                        field.onChange
-                                                    }
+                                                    onCheckedChange={(
+                                                        checked
+                                                    ) => {
+                                                        field.onChange(checked);
+                                                        setIsCurrent(
+                                                            checked as boolean
+                                                        );
+                                                    }}
                                                 />
                                             </FormControl>
                                             <div className="space-y-1 leading-none">
@@ -289,14 +375,20 @@ const ExperienceStep = ({
                                     <Button
                                         type="button"
                                         variant="outline"
-                                        onClick={() => setIsDialogOpen(false)}
+                                        onClick={() =>
+                                            handleDialogChange(false)
+                                        }
                                     >
                                         Cancel
                                     </Button>
                                     <Button type="submit" disabled={isPending}>
                                         {isPending
-                                            ? 'Adding...'
-                                            : 'Add Experience'}
+                                            ? editingExperience
+                                                ? 'Updating...'
+                                                : 'Adding...'
+                                            : editingExperience
+                                              ? 'Update Experience'
+                                              : 'Add Experience'}
                                     </Button>
                                 </div>
                             </form>
@@ -322,7 +414,7 @@ const ExperienceStep = ({
                         </Button>
                     </div>
                 ) : (
-                    experiences.map((exp: any) => (
+                    sortedExperiences.map((exp: any) => (
                         <div
                             key={exp.id}
                             className="flex justify-between items-start p-4 border border-slate-200 rounded-lg hover:border-slate-300 transition-colors"
@@ -354,21 +446,45 @@ const ExperienceStep = ({
                                 </p>
                                 {exp.description && (
                                     <div
-                                        className="text-sm text-slate-600 mt-2 prose prose-sm max-w-none"
+                                        className="text-sm text-slate-600 mt-2 prose prose-sm max-w-none [&_ul]:list-disc [&_ul]:pl-6 [&_ol]:list-decimal [&_ol]:pl-6 [&_li]:ml-0"
                                         dangerouslySetInnerHTML={{
                                             __html: exp.description
                                         }}
                                     />
                                 )}
                             </div>
-                            <Button
-                                variant="ghost"
-                                size="icon"
-                                onClick={() => handleDelete(exp.id)}
-                                disabled={isPending}
-                            >
-                                <Trash2 className="w-4 h-4 text-red-500" />
-                            </Button>
+                            <div className="flex gap-2">
+                                <Button
+                                    variant="ghost"
+                                    size="icon"
+                                    onClick={() => handleEdit(exp)}
+                                    disabled={isPending}
+                                >
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        width="16"
+                                        height="16"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        strokeWidth="2"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        className="text-slate-600"
+                                    >
+                                        <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" />
+                                        <path d="m15 5 4 4" />
+                                    </svg>
+                                </Button>
+                                <Button
+                                    variant="ghost"
+                                    size="icon"
+                                    onClick={() => handleDelete(exp.id)}
+                                    disabled={isPending}
+                                >
+                                    <Trash2 className="w-4 h-4 text-red-500" />
+                                </Button>
+                            </div>
                         </div>
                     ))
                 )}

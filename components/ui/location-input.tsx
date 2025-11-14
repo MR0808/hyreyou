@@ -278,7 +278,7 @@ export function LocationInput({
                                     onClick={() => handleSelect(location)}
                                     className={cn(
                                         'w-full flex items-start gap-2 px-3 py-2 text-left text-sm',
-                                        'hover:bg-accent hover:text-accent-foreground cursor-pointer',
+                                        'hover:bg-accent cursor-pointer',
                                         'transition-colors'
                                     )}
                                 >

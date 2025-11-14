@@ -19,31 +19,56 @@ export const basicDetailsSchema = z.object({
         })
 });
 
-export const workExperienceSchema = z.object({
-    company: z.string().min(2, 'Company name is required'),
-    title: z.string().min(2, 'Job title is required'),
-    city: z.string().optional(),
-    state: z.string().optional(),
-    country: z.string().optional(),
-    startDate: z.string().min(1, 'Start date is required'),
-    endDate: z.string().optional(),
-    current: z.boolean(),
-    description: z.string().optional()
-});
+export const workExperienceSchema = z
+    .object({
+        company: z.string().min(2, 'Company name is required'),
+        title: z.string().min(2, 'Job title is required'),
+        city: z.string().optional(),
+        state: z.string().optional(),
+        country: z.string().optional(),
+        startDate: z.string().min(1, 'Start date is required'),
+        endDate: z.string().optional(),
+        current: z.boolean(),
+        description: z.string().optional()
+    })
+    .refine(
+        (data) => {
+            if (!data.current && data.endDate && data.startDate) {
+                return new Date(data.startDate) <= new Date(data.endDate);
+            }
+            return true;
+        },
+        {
+            message: 'Start date must be before or equal to end date',
+            path: ['endDate']
+        }
+    );
 
-export const educationSchema = z.object({
-    institution: z.string().min(2, 'Institution name is required'),
-    degree: z.string().min(2, 'Degree is required'),
-    field: z.string().optional(),
-    city: z.string().optional(),
-    state: z.string().optional(),
-    country: z.string().optional(),
-    startDate: z.string().optional(),
-    endDate: z.string().optional(),
-    current: z.boolean(),
-    gpa: z.string().optional(),
-    description: z.string().optional()
-});
+export const educationSchema = z
+    .object({
+        institution: z.string().min(2, 'Institution name is required'),
+        degree: z.string().min(2, 'Degree is required'),
+        field: z.string().optional(),
+        city: z.string().optional(),
+        state: z.string().optional(),
+        country: z.string().optional(),
+        startDate: z.string().optional(),
+        endDate: z.string().optional(),
+        current: z.boolean(),
+        description: z.string().optional()
+    })
+    .refine(
+        (data) => {
+            if (!data.current && data.endDate && data.startDate) {
+                return new Date(data.startDate) <= new Date(data.endDate);
+            }
+            return true;
+        },
+        {
+            message: 'Start date must be before or equal to end date',
+            path: ['endDate']
+        }
+    );
 
 export const skillsSchema = z.object({
     skills: z

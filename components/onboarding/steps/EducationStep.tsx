@@ -6,7 +6,11 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'sonner';
 
 import { educationSchema, type EducationInput } from '@/schemas/onboarding';
-import { addEducation, deleteEducation } from '@/actions/onboarding';
+import {
+    addEducation,
+    deleteEducation,
+    updateEducation
+} from '@/actions/onboarding';
 import { Button } from '@/components/ui/button';
 import {
     Form,
@@ -34,6 +38,8 @@ const EducationStep = ({ profile, onNext, onPrevious }: EducationStepProps) => {
     const [isPending, startTransition] = useTransition();
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [education, setEducation] = useState(profile?.education || []);
+    const [isCurrent, setIsCurrent] = useState(false);
+    const [editingEducation, setEditingEducation] = useState<any>(null);
 
     const form = useForm<EducationInput>({
         resolver: zodResolver(educationSchema),
@@ -47,24 +53,90 @@ const EducationStep = ({ profile, onNext, onPrevious }: EducationStepProps) => {
             startDate: '',
             endDate: '',
             current: false,
-            gpa: '',
             description: ''
         }
     });
 
-    const isCurrent = form.watch('current');
+    const handleDialogChange = (open: boolean) => {
+        setIsDialogOpen(open);
+        if (!open) {
+            form.reset();
+            setIsCurrent(false);
+            setEditingEducation(null);
+        }
+    };
+
+    const handleEdit = (edu: any) => {
+        setEditingEducation(edu);
+        const formatDateForMonthInput = (dateString: string) => {
+            if (!dateString) return '';
+            const date = new Date(dateString);
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            return `${year}-${month}`;
+        };
+
+        form.reset({
+            institution: edu.institution,
+            degree: edu.degree,
+            field: edu.field || '',
+            city: edu.city || '',
+            state: edu.state || '',
+            country: edu.country || '',
+            startDate: formatDateForMonthInput(edu.startDate),
+            endDate: formatDateForMonthInput(edu.endDate),
+            current: edu.current,
+            description: edu.description || ''
+        });
+        setIsCurrent(edu.current);
+        setIsDialogOpen(true);
+    };
+
+    const sortedEducation = [...education].sort((a, b) => {
+        if (a.current && !b.current) return -1;
+        if (!a.current && b.current) return 1;
+
+        if (!a.endDate && !b.endDate) return 0;
+        if (!a.endDate) return 1;
+        if (!b.endDate) return -1;
+
+        const aDate = new Date(a.endDate);
+        const bDate = new Date(b.endDate);
+
+        return bDate.getTime() - aDate.getTime();
+    });
 
     function onSubmit(data: EducationInput) {
         startTransition(async () => {
-            const result = await addEducation(data);
+            const result = editingEducation
+                ? await updateEducation(editingEducation.id, data)
+                : await addEducation(data);
 
             if (result.success) {
-                toast.success('Education added!');
+                toast.success(
+                    editingEducation ? 'Education updated!' : 'Education added!'
+                );
                 setIsDialogOpen(false);
                 form.reset();
-                window.location.reload();
+                if (result.data) {
+                    if (editingEducation) {
+                        setEducation(
+                            education.map((edu: any) =>
+                                edu.id === editingEducation.id
+                                    ? result.data
+                                    : edu
+                            )
+                        );
+                    } else {
+                        setEducation([...education, result.data]);
+                    }
+                }
+                setEditingEducation(null);
             } else {
-                toast.error(result.error || 'Failed to add education');
+                toast.error(
+                    result.error ||
+                        `Failed to ${editingEducation ? 'update' : 'add'} education`
+                );
             }
         });
     }
@@ -96,7 +168,7 @@ const EducationStep = ({ profile, onNext, onPrevious }: EducationStepProps) => {
                     </p>
                 </div>
 
-                <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+                <Dialog open={isDialogOpen} onOpenChange={handleDialogChange}>
                     <DialogTrigger asChild>
                         <Button>
                             <Plus className="w-4 h-4 mr-2" />
@@ -105,7 +177,11 @@ const EducationStep = ({ profile, onNext, onPrevious }: EducationStepProps) => {
                     </DialogTrigger>
                     <DialogContent className="max-w-2xl">
                         <DialogHeader>
-                            <DialogTitle>Add Education</DialogTitle>
+                            <DialogTitle>
+                                {editingEducation
+                                    ? 'Edit Education'
+                                    : 'Add Education'}
+                            </DialogTitle>
                         </DialogHeader>
 
                         <Form {...form}>
@@ -213,7 +289,7 @@ const EducationStep = ({ profile, onNext, onPrevious }: EducationStepProps) => {
                                     )}
                                 />
 
-                                <div className="grid grid-cols-3 gap-4">
+                                <div className="grid grid-cols-2 gap-4">
                                     <FormField
                                         control={form.control}
                                         name="startDate"
@@ -226,6 +302,9 @@ const EducationStep = ({ profile, onNext, onPrevious }: EducationStepProps) => {
                                                     <Input
                                                         type="month"
                                                         {...field}
+                                                        max={new Date()
+                                                            .toISOString()
+                                                            .slice(0, 7)}
                                                     />
                                                 </FormControl>
                                                 <FormMessage />
@@ -244,27 +323,11 @@ const EducationStep = ({ profile, onNext, onPrevious }: EducationStepProps) => {
                                                 <FormControl>
                                                     <Input
                                                         type="month"
+                                                        {...field}
                                                         disabled={isCurrent}
-                                                        {...field}
-                                                    />
-                                                </FormControl>
-                                                <FormMessage />
-                                            </FormItem>
-                                        )}
-                                    />
-
-                                    <FormField
-                                        control={form.control}
-                                        name="gpa"
-                                        render={({ field }) => (
-                                            <FormItem>
-                                                <FormLabel>
-                                                    GPA (Optional)
-                                                </FormLabel>
-                                                <FormControl>
-                                                    <Input
-                                                        placeholder="3.8"
-                                                        {...field}
+                                                        max={new Date()
+                                                            .toISOString()
+                                                            .slice(0, 7)}
                                                     />
                                                 </FormControl>
                                                 <FormMessage />
@@ -281,9 +344,14 @@ const EducationStep = ({ profile, onNext, onPrevious }: EducationStepProps) => {
                                             <FormControl>
                                                 <Checkbox
                                                     checked={field.value}
-                                                    onCheckedChange={
-                                                        field.onChange
-                                                    }
+                                                    onCheckedChange={(
+                                                        checked
+                                                    ) => {
+                                                        field.onChange(checked);
+                                                        setIsCurrent(
+                                                            checked as boolean
+                                                        );
+                                                    }}
                                                 />
                                             </FormControl>
                                             <div className="space-y-1 leading-none">
@@ -319,14 +387,20 @@ const EducationStep = ({ profile, onNext, onPrevious }: EducationStepProps) => {
                                     <Button
                                         type="button"
                                         variant="outline"
-                                        onClick={() => setIsDialogOpen(false)}
+                                        onClick={() =>
+                                            handleDialogChange(false)
+                                        }
                                     >
                                         Cancel
                                     </Button>
                                     <Button type="submit" disabled={isPending}>
                                         {isPending
-                                            ? 'Adding...'
-                                            : 'Add Education'}
+                                            ? editingEducation
+                                                ? 'Updating...'
+                                                : 'Adding...'
+                                            : editingEducation
+                                              ? 'Update Education'
+                                              : 'Add Education'}
                                     </Button>
                                 </div>
                             </form>
@@ -352,7 +426,7 @@ const EducationStep = ({ profile, onNext, onPrevious }: EducationStepProps) => {
                         </Button>
                     </div>
                 ) : (
-                    education.map((edu: any) => (
+                    sortedEducation.map((edu: any) => (
                         <div
                             key={edu.id}
                             className="flex justify-between items-start p-4 border border-slate-200 rounded-lg hover:border-slate-300 transition-colors"
@@ -367,6 +441,14 @@ const EducationStep = ({ profile, onNext, onPrevious }: EducationStepProps) => {
                                 {edu.field && (
                                     <p className="text-sm text-slate-600">
                                         Field: {edu.field}
+                                    </p>
+                                )}
+                                {edu.city && (
+                                    <p className="text-sm text-slate-600">
+                                        Location:{' '}
+                                        {[edu.city, edu.state, edu.country]
+                                            .filter(Boolean)
+                                            .join(', ')}
                                     </p>
                                 )}
                                 {(edu.startDate || edu.endDate) && (
@@ -388,7 +470,6 @@ const EducationStep = ({ profile, onNext, onPrevious }: EducationStepProps) => {
                                                   month: 'short',
                                                   year: 'numeric'
                                               })}
-                                        {edu.gpa && ` • GPA: ${edu.gpa}`}
                                     </p>
                                 )}
                                 {edu.description && (
@@ -397,14 +478,38 @@ const EducationStep = ({ profile, onNext, onPrevious }: EducationStepProps) => {
                                     </p>
                                 )}
                             </div>
-                            <Button
-                                variant="ghost"
-                                size="icon"
-                                onClick={() => handleDelete(edu.id)}
-                                disabled={isPending}
-                            >
-                                <Trash2 className="w-4 h-4 text-red-500" />
-                            </Button>
+                            <div className="flex gap-2">
+                                <Button
+                                    variant="ghost"
+                                    size="icon"
+                                    onClick={() => handleEdit(edu)}
+                                    disabled={isPending}
+                                >
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        width="16"
+                                        height="16"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        strokeWidth="2"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        className="text-slate-600"
+                                    >
+                                        <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" />
+                                        <path d="m15 5 4 4" />
+                                    </svg>
+                                </Button>
+                                <Button
+                                    variant="ghost"
+                                    size="icon"
+                                    onClick={() => handleDelete(edu.id)}
+                                    disabled={isPending}
+                                >
+                                    <Trash2 className="w-4 h-4 text-red-500" />
+                                </Button>
+                            </div>
                         </div>
                     ))
                 )}

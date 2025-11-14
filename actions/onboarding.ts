@@ -136,7 +136,7 @@ export const addWorkExperience = async (data: WorkExperienceInput) => {
         });
 
         revalidatePath('/onboarding');
-        return { success: true, experienceId: experience.id };
+        return { success: true, data: experience };
     } catch (error) {
         return {
             success: false,
@@ -144,6 +144,58 @@ export const addWorkExperience = async (data: WorkExperienceInput) => {
                 error instanceof Error
                     ? error.message
                     : 'Failed to add work experience'
+        };
+    }
+};
+
+export const updateWorkExperience = async (
+    experienceId: string,
+    data: WorkExperienceInput
+) => {
+    try {
+        const user = await getAuthUser();
+        const validated = workExperienceSchema.parse(data);
+
+        const experience = await prisma.workExperience.findUnique({
+            where: { id: experienceId },
+            include: { profile: true }
+        });
+
+        if (!experience || experience.profile.userId !== user.id) {
+            throw new Error('Experience not found or unauthorized');
+        }
+
+        const updatedExperience = await prisma.workExperience.update({
+            where: { id: experienceId },
+            data: {
+                company: validated.company,
+                title: validated.title,
+                city: validated.city,
+                state: validated.state,
+                country: validated.country,
+                startDate: new Date(validated.startDate),
+                endDate: validated.endDate ? new Date(validated.endDate) : null,
+                current: validated.current,
+                description: validated.description
+            }
+        });
+
+        await createAuditLog({
+            action: 'candidate.experience.updated',
+            entity: 'WorkExperience',
+            entityId: experienceId,
+            metadata: { company: validated.company, title: validated.title }
+        });
+
+        revalidatePath('/onboarding');
+        return { success: true, data: updatedExperience };
+    } catch (error) {
+        return {
+            success: false,
+            error:
+                error instanceof Error
+                    ? error.message
+                    : 'Failed to update work experience'
         };
     }
 };
@@ -211,7 +263,6 @@ export const addEducation = async (data: EducationInput) => {
                     : null,
                 endDate: validated.endDate ? new Date(validated.endDate) : null,
                 current: validated.current,
-                gpa: validated.gpa,
                 description: validated.description
             }
         });
@@ -242,7 +293,7 @@ export const addEducation = async (data: EducationInput) => {
         });
 
         revalidatePath('/onboarding');
-        return { success: true, educationId: education.id };
+        return { success: true, data: education };
     } catch (error) {
         return {
             success: false,
@@ -250,6 +301,64 @@ export const addEducation = async (data: EducationInput) => {
                 error instanceof Error
                     ? error.message
                     : 'Failed to add education'
+        };
+    }
+};
+
+export const updateEducation = async (
+    educationId: string,
+    data: EducationInput
+) => {
+    try {
+        const user = await getAuthUser();
+        const validated = educationSchema.parse(data);
+
+        const education = await prisma.education.findUnique({
+            where: { id: educationId },
+            include: { profile: true }
+        });
+
+        if (!education || education.profile.userId !== user.id) {
+            throw new Error('Education not found or unauthorized');
+        }
+
+        const updatedEducation = await prisma.education.update({
+            where: { id: educationId },
+            data: {
+                institution: validated.institution,
+                degree: validated.degree,
+                field: validated.field,
+                city: validated.city,
+                state: validated.state,
+                country: validated.country,
+                startDate: validated.startDate
+                    ? new Date(validated.startDate)
+                    : null,
+                endDate: validated.endDate ? new Date(validated.endDate) : null,
+                current: validated.current,
+                description: validated.description
+            }
+        });
+
+        await createAuditLog({
+            action: 'candidate.education.updated',
+            entity: 'Education',
+            entityId: educationId,
+            metadata: {
+                institution: validated.institution,
+                degree: validated.degree
+            }
+        });
+
+        revalidatePath('/onboarding');
+        return { success: true, data: updatedEducation };
+    } catch (error) {
+        return {
+            success: false,
+            error:
+                error instanceof Error
+                    ? error.message
+                    : 'Failed to update education'
         };
     }
 };

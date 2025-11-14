@@ -1,6 +1,8 @@
 'use client';
 
 import { useState } from 'react';
+import { CheckCircle2 } from 'lucide-react';
+
 import BasicDetailsStep from '@/components/onboarding/steps/BasicDetailsStep';
 import ExperienceStep from '@/components/onboarding/steps/ExperienceStep';
 import EducationStep from '@/components/onboarding/steps/EducationStep';
@@ -8,7 +10,6 @@ import SkillsStep from '@/components/onboarding/steps/SkillsStep';
 import CertificationsStep from '@/components/onboarding/steps/CertificationsStep';
 import ProfilePhotoStep from '@/components/onboarding/steps/ProfilePhotoStep';
 import { Progress } from '@/components/ui/progress';
-import { CheckCircle2 } from 'lucide-react';
 import { OnboardingFlowProps } from '@/types/onboarding';
 
 const STEPS = [
@@ -45,6 +46,13 @@ const OnboardingFlow = ({
         }
     };
 
+    const handleStepClick = (stepNumber: number) => {
+        // Only allow clicking on previous steps or current step
+        if (stepNumber <= currentStep) {
+            setCurrentStep(stepNumber);
+        }
+    };
+
     return (
         <div className="space-y-8">
             {/* Header */}
@@ -77,13 +85,21 @@ const OnboardingFlow = ({
             <div className="flex items-center justify-between">
                 {STEPS.map((step, index) => (
                     <div key={step.number} className="flex items-center">
-                        <div className="flex flex-col items-center">
+                        <button
+                            onClick={() => handleStepClick(step.number)}
+                            disabled={step.number > currentStep}
+                            className={`flex flex-col items-center ${
+                                step.number <= currentStep
+                                    ? 'cursor-pointer hover:opacity-80'
+                                    : 'cursor-not-allowed'
+                            } transition-opacity`}
+                        >
                             <div
                                 className={`flex items-center justify-center w-10 h-10 rounded-full border-2 transition-colors ${
                                     currentStep > step.number
                                         ? 'bg-teal-600 border-teal-600 text-white'
                                         : currentStep === step.number
-                                          ? 'bg-slate-blue border-slate-900 text-slate-900'
+                                          ? 'bg-slate-blue border-slate-blue text-slate-800'
                                           : 'bg-white border-slate-300 text-slate-400'
                                 }`}
                             >
@@ -98,7 +114,7 @@ const OnboardingFlow = ({
                             <span className="mt-2 text-xs text-slate-600 text-center max-w-20">
                                 {step.title}
                             </span>
-                        </div>
+                        </button>
                         {index < STEPS.length - 1 && (
                             <div
                                 className={`h-0.5 w-12 mx-2 ${currentStep > step.number ? 'bg-teal-600' : 'bg-slate-300'}`}

@@ -19282,7 +19282,6 @@ export namespace Prisma {
     startDate: Date | null
     endDate: Date | null
     current: boolean | null
-    gpa: string | null
     description: string | null
     order: number | null
     createdAt: Date | null
@@ -19301,7 +19300,6 @@ export namespace Prisma {
     startDate: Date | null
     endDate: Date | null
     current: boolean | null
-    gpa: string | null
     description: string | null
     order: number | null
     createdAt: Date | null
@@ -19320,7 +19318,6 @@ export namespace Prisma {
     startDate: number
     endDate: number
     current: number
-    gpa: number
     description: number
     order: number
     createdAt: number
@@ -19349,7 +19346,6 @@ export namespace Prisma {
     startDate?: true
     endDate?: true
     current?: true
-    gpa?: true
     description?: true
     order?: true
     createdAt?: true
@@ -19368,7 +19364,6 @@ export namespace Prisma {
     startDate?: true
     endDate?: true
     current?: true
-    gpa?: true
     description?: true
     order?: true
     createdAt?: true
@@ -19387,7 +19382,6 @@ export namespace Prisma {
     startDate?: true
     endDate?: true
     current?: true
-    gpa?: true
     description?: true
     order?: true
     createdAt?: true
@@ -19493,7 +19487,6 @@ export namespace Prisma {
     startDate: Date | null
     endDate: Date | null
     current: boolean
-    gpa: string | null
     description: string | null
     order: number
     createdAt: Date
@@ -19531,7 +19524,6 @@ export namespace Prisma {
     startDate?: boolean
     endDate?: boolean
     current?: boolean
-    gpa?: boolean
     description?: boolean
     order?: boolean
     createdAt?: boolean
@@ -19551,7 +19543,6 @@ export namespace Prisma {
     startDate?: boolean
     endDate?: boolean
     current?: boolean
-    gpa?: boolean
     description?: boolean
     order?: boolean
     createdAt?: boolean
@@ -19571,7 +19562,6 @@ export namespace Prisma {
     startDate?: boolean
     endDate?: boolean
     current?: boolean
-    gpa?: boolean
     description?: boolean
     order?: boolean
     createdAt?: boolean
@@ -19591,14 +19581,13 @@ export namespace Prisma {
     startDate?: boolean
     endDate?: boolean
     current?: boolean
-    gpa?: boolean
     description?: boolean
     order?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type EducationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "profileId" | "institution" | "degree" | "field" | "city" | "state" | "country" | "startDate" | "endDate" | "current" | "gpa" | "description" | "order" | "createdAt" | "updatedAt", ExtArgs["result"]["education"]>
+  export type EducationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "profileId" | "institution" | "degree" | "field" | "city" | "state" | "country" | "startDate" | "endDate" | "current" | "description" | "order" | "createdAt" | "updatedAt", ExtArgs["result"]["education"]>
   export type EducationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     profile?: boolean | CandidateProfileDefaultArgs<ExtArgs>
   }
@@ -19626,7 +19615,6 @@ export namespace Prisma {
       startDate: Date | null
       endDate: Date | null
       current: boolean
-      gpa: string | null
       description: string | null
       order: number
       createdAt: Date
@@ -20066,7 +20054,6 @@ export namespace Prisma {
     readonly startDate: FieldRef<"Education", 'DateTime'>
     readonly endDate: FieldRef<"Education", 'DateTime'>
     readonly current: FieldRef<"Education", 'Boolean'>
-    readonly gpa: FieldRef<"Education", 'String'>
     readonly description: FieldRef<"Education", 'String'>
     readonly order: FieldRef<"Education", 'Int'>
     readonly createdAt: FieldRef<"Education", 'DateTime'>
@@ -34602,7 +34589,6 @@ export namespace Prisma {
     startDate: 'startDate',
     endDate: 'endDate',
     current: 'current',
-    gpa: 'gpa',
     description: 'description',
     order: 'order',
     createdAt: 'createdAt',
@@ -35023,7 +35009,6 @@ export namespace Prisma {
     city: 'city',
     state: 'state',
     country: 'country',
-    gpa: 'gpa',
     description: 'description'
   };
 
@@ -36580,7 +36565,6 @@ export namespace Prisma {
     startDate?: DateTimeNullableFilter<"Education"> | Date | string | null
     endDate?: DateTimeNullableFilter<"Education"> | Date | string | null
     current?: BoolFilter<"Education"> | boolean
-    gpa?: StringNullableFilter<"Education"> | string | null
     description?: StringNullableFilter<"Education"> | string | null
     order?: IntFilter<"Education"> | number
     createdAt?: DateTimeFilter<"Education"> | Date | string
@@ -36600,7 +36584,6 @@ export namespace Prisma {
     startDate?: SortOrderInput | SortOrder
     endDate?: SortOrderInput | SortOrder
     current?: SortOrder
-    gpa?: SortOrderInput | SortOrder
     description?: SortOrderInput | SortOrder
     order?: SortOrder
     createdAt?: SortOrder
@@ -36624,7 +36607,6 @@ export namespace Prisma {
     startDate?: DateTimeNullableFilter<"Education"> | Date | string | null
     endDate?: DateTimeNullableFilter<"Education"> | Date | string | null
     current?: BoolFilter<"Education"> | boolean
-    gpa?: StringNullableFilter<"Education"> | string | null
     description?: StringNullableFilter<"Education"> | string | null
     order?: IntFilter<"Education"> | number
     createdAt?: DateTimeFilter<"Education"> | Date | string
@@ -36644,7 +36626,6 @@ export namespace Prisma {
     startDate?: SortOrderInput | SortOrder
     endDate?: SortOrderInput | SortOrder
     current?: SortOrder
-    gpa?: SortOrderInput | SortOrder
     description?: SortOrderInput | SortOrder
     order?: SortOrder
     createdAt?: SortOrder
@@ -36671,7 +36652,6 @@ export namespace Prisma {
     startDate?: DateTimeNullableWithAggregatesFilter<"Education"> | Date | string | null
     endDate?: DateTimeNullableWithAggregatesFilter<"Education"> | Date | string | null
     current?: BoolWithAggregatesFilter<"Education"> | boolean
-    gpa?: StringNullableWithAggregatesFilter<"Education"> | string | null
     description?: StringNullableWithAggregatesFilter<"Education"> | string | null
     order?: IntWithAggregatesFilter<"Education"> | number
     createdAt?: DateTimeWithAggregatesFilter<"Education"> | Date | string
@@ -39086,7 +39066,6 @@ export namespace Prisma {
     startDate?: Date | string | null
     endDate?: Date | string | null
     current?: boolean
-    gpa?: string | null
     description?: string | null
     order?: number
     createdAt?: Date | string
@@ -39106,7 +39085,6 @@ export namespace Prisma {
     startDate?: Date | string | null
     endDate?: Date | string | null
     current?: boolean
-    gpa?: string | null
     description?: string | null
     order?: number
     createdAt?: Date | string
@@ -39124,7 +39102,6 @@ export namespace Prisma {
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     current?: BoolFieldUpdateOperationsInput | boolean
-    gpa?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     order?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -39144,7 +39121,6 @@ export namespace Prisma {
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     current?: BoolFieldUpdateOperationsInput | boolean
-    gpa?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     order?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -39163,7 +39139,6 @@ export namespace Prisma {
     startDate?: Date | string | null
     endDate?: Date | string | null
     current?: boolean
-    gpa?: string | null
     description?: string | null
     order?: number
     createdAt?: Date | string
@@ -39181,7 +39156,6 @@ export namespace Prisma {
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     current?: BoolFieldUpdateOperationsInput | boolean
-    gpa?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     order?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -39200,7 +39174,6 @@ export namespace Prisma {
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     current?: BoolFieldUpdateOperationsInput | boolean
-    gpa?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     order?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -41584,7 +41557,6 @@ export namespace Prisma {
     startDate?: SortOrder
     endDate?: SortOrder
     current?: SortOrder
-    gpa?: SortOrder
     description?: SortOrder
     order?: SortOrder
     createdAt?: SortOrder
@@ -41607,7 +41579,6 @@ export namespace Prisma {
     startDate?: SortOrder
     endDate?: SortOrder
     current?: SortOrder
-    gpa?: SortOrder
     description?: SortOrder
     order?: SortOrder
     createdAt?: SortOrder
@@ -41626,7 +41597,6 @@ export namespace Prisma {
     startDate?: SortOrder
     endDate?: SortOrder
     current?: SortOrder
-    gpa?: SortOrder
     description?: SortOrder
     order?: SortOrder
     createdAt?: SortOrder
@@ -46541,7 +46511,6 @@ export namespace Prisma {
     startDate?: Date | string | null
     endDate?: Date | string | null
     current?: boolean
-    gpa?: string | null
     description?: string | null
     order?: number
     createdAt?: Date | string
@@ -46559,7 +46528,6 @@ export namespace Prisma {
     startDate?: Date | string | null
     endDate?: Date | string | null
     current?: boolean
-    gpa?: string | null
     description?: string | null
     order?: number
     createdAt?: Date | string
@@ -46864,7 +46832,6 @@ export namespace Prisma {
     startDate?: DateTimeNullableFilter<"Education"> | Date | string | null
     endDate?: DateTimeNullableFilter<"Education"> | Date | string | null
     current?: BoolFilter<"Education"> | boolean
-    gpa?: StringNullableFilter<"Education"> | string | null
     description?: StringNullableFilter<"Education"> | string | null
     order?: IntFilter<"Education"> | number
     createdAt?: DateTimeFilter<"Education"> | Date | string
@@ -50025,7 +49992,6 @@ export namespace Prisma {
     startDate?: Date | string | null
     endDate?: Date | string | null
     current?: boolean
-    gpa?: string | null
     description?: string | null
     order?: number
     createdAt?: Date | string
@@ -50146,7 +50112,6 @@ export namespace Prisma {
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     current?: BoolFieldUpdateOperationsInput | boolean
-    gpa?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     order?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -50164,7 +50129,6 @@ export namespace Prisma {
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     current?: BoolFieldUpdateOperationsInput | boolean
-    gpa?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     order?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -50182,7 +50146,6 @@ export namespace Prisma {
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     current?: BoolFieldUpdateOperationsInput | boolean
-    gpa?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     order?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string

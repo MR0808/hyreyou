@@ -365,7 +365,6 @@ model Education {
   startDate   DateTime?
   endDate     DateTime?
   current     Boolean   @default(false)
-  gpa         String?
   description String?
 
   order     Int      @default(0)

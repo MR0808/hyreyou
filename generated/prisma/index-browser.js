@@ -315,7 +315,6 @@ exports.Prisma.EducationScalarFieldEnum = {
   startDate: 'startDate',
   endDate: 'endDate',
   current: 'current',
-  gpa: 'gpa',
   description: 'description',
   order: 'order',
   createdAt: 'createdAt',
@@ -646,7 +645,6 @@ exports.Prisma.EducationOrderByRelevanceFieldEnum = {
   city: 'city',
   state: 'state',
   country: 'country',
-  gpa: 'gpa',
   description: 'description'
 };
 
