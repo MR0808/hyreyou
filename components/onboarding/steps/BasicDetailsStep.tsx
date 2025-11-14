@@ -22,21 +22,21 @@ import {
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { BasicDetailsStepProps } from '@/types/onboarding';
+import { PhoneInput } from '@/components/ui/phone-input';
+import { LocationInput } from '@/components/ui/location-input';
 
-const BasicDetailsStep = ({
-    profile,
-    onNext,
-    isFirstStep
-}: BasicDetailsStepProps) => {
+const BasicDetailsStep = ({ profile, onNext, user }: BasicDetailsStepProps) => {
     const [isPending, startTransition] = useTransition();
 
     const form = useForm<BasicDetailsInput>({
         resolver: zodResolver(basicDetailsSchema),
         defaultValues: {
-            firstName: profile?.firstName || '',
-            lastName: profile?.lastName || '',
+            firstName: profile?.firstName || user.name || '',
+            lastName: profile?.lastName || user.lastName || '',
             headline: profile?.headline || '',
-            location: profile?.location || '',
+            city: profile?.city || '',
+            state: profile?.state || '',
+            country: profile?.country || 'United States',
             phone: profile?.phone || ''
         }
     });
@@ -122,43 +122,66 @@ const BasicDetailsStep = ({
                         )}
                     />
 
-                    <div className="grid grid-cols-2 gap-4">
-                        <FormField
-                            control={form.control}
-                            name="location"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Location</FormLabel>
-                                    <FormControl>
-                                        <Input
-                                            placeholder="New York, NY"
-                                            {...field}
-                                        />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
+                    <FormField
+                        control={form.control}
+                        name="city"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Location</FormLabel>
+                                <FormControl>
+                                    <LocationInput
+                                        value={{
+                                            city: form.getValues('city'),
+                                            state: form.getValues('state'),
+                                            country: form.getValues('country')
+                                        }}
+                                        onChange={(location) => {
+                                            form.setValue(
+                                                'city',
+                                                location.city
+                                            );
+                                            form.setValue(
+                                                'state',
+                                                location.state || ''
+                                            );
+                                            form.setValue(
+                                                'country',
+                                                location.country
+                                            );
+                                        }}
+                                        placeholder="Search for your city (e.g., Melbourne)"
+                                    />
+                                </FormControl>
+                                <FormDescription>
+                                    Type your city name to search globally
+                                </FormDescription>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
 
-                        <FormField
-                            control={form.control}
-                            name="phone"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>
-                                        Phone Number (Optional)
-                                    </FormLabel>
-                                    <FormControl>
-                                        <Input
-                                            placeholder="+1 (555) 000-0000"
-                                            {...field}
-                                        />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                    </div>
+                    <FormField
+                        control={form.control}
+                        name="phone"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Phone Number (Optional)</FormLabel>
+                                <FormControl>
+                                    <PhoneInput
+                                        value={field.value}
+                                        onChange={field.onChange}
+                                        placeholder="Enter phone number"
+                                        defaultCountry="AU"
+                                    />
+                                </FormControl>
+                                <FormDescription>
+                                    Include your country code for international
+                                    numbers
+                                </FormDescription>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
 
                     <div className="flex justify-end gap-3 pt-4">
                         <Button type="submit" disabled={isPending} size="lg">

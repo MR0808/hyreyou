@@ -1,8 +1,10 @@
+import { User } from '@/types/session';
+
 export interface OnboardingFlowProps {
     initialProfile: any;
     initialStep: number;
     initialCompletionScore: number;
-    user: any;
+    user: User;
 }
 
 export interface BasicDetailsStepProps {
@@ -11,6 +13,7 @@ export interface BasicDetailsStepProps {
     onPrevious: () => void;
     isFirstStep: boolean;
     isLastStep: boolean;
+    user: User;
 }
 
 export interface ExperienceStepProps {

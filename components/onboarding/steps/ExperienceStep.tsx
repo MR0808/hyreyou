@@ -4,6 +4,7 @@ import { useState, useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'sonner';
+import { Briefcase, Plus, Trash2 } from 'lucide-react';
 
 import {
     workExperienceSchema,
@@ -22,7 +23,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from '@/components/ui/checkbox';
-import { Briefcase, Plus, Trash2 } from 'lucide-react';
+import { LocationInput } from '@/components/ui/location-input';
 import {
     Dialog,
     DialogContent,
@@ -48,7 +49,9 @@ const ExperienceStep = ({
         defaultValues: {
             company: '',
             title: '',
-            location: '',
+            city: '',
+            state: '',
+            country: '',
             startDate: '',
             endDate: '',
             current: false,
@@ -56,7 +59,7 @@ const ExperienceStep = ({
         }
     });
 
-    const isCurrent = form.watch('current');
+    const isCurrent = form.getValues('current');
 
     function onSubmit(data: WorkExperienceInput) {
         startTransition(async () => {
@@ -157,16 +160,42 @@ const ExperienceStep = ({
 
                                 <FormField
                                     control={form.control}
-                                    name="location"
+                                    name="city"
                                     render={({ field }) => (
                                         <FormItem>
                                             <FormLabel>
                                                 Location (Optional)
                                             </FormLabel>
                                             <FormControl>
-                                                <Input
-                                                    placeholder="San Francisco, CA"
-                                                    {...field}
+                                                <LocationInput
+                                                    value={{
+                                                        city:
+                                                            form.getValues(
+                                                                'city'
+                                                            ) || '',
+                                                        state: form.getValues(
+                                                            'state'
+                                                        ),
+                                                        country:
+                                                            form.getValues(
+                                                                'country'
+                                                            ) || ''
+                                                    }}
+                                                    onChange={(location) => {
+                                                        form.setValue(
+                                                            'city',
+                                                            location.city
+                                                        );
+                                                        form.setValue(
+                                                            'state',
+                                                            location.state
+                                                        );
+                                                        form.setValue(
+                                                            'country',
+                                                            location.country
+                                                        );
+                                                    }}
+                                                    placeholder="Search for city or suburb..."
                                                 />
                                             </FormControl>
                                             <FormMessage />
@@ -319,7 +348,8 @@ const ExperienceStep = ({
                                               month: 'short',
                                               year: 'numeric'
                                           })}
-                                    {exp.location && ` • ${exp.location}`}
+                                    {exp.city &&
+                                        ` • ${[exp.city, exp.state, exp.country].filter(Boolean).join(', ')}`}
                                 </p>
                                 {exp.description && (
                                     <p className="text-sm text-slate-600 mt-2">

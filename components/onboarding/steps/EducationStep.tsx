@@ -28,6 +28,7 @@ import {
     DialogTrigger
 } from '@/components/ui/dialog';
 import { EducationStepProps } from '@/types/onboarding';
+import { LocationInput } from '@/components/ui/location-input';
 
 const EducationStep = ({ profile, onNext, onPrevious }: EducationStepProps) => {
     const [isPending, startTransition] = useTransition();
@@ -40,6 +41,9 @@ const EducationStep = ({ profile, onNext, onPrevious }: EducationStepProps) => {
             institution: '',
             degree: '',
             field: '',
+            city: '',
+            state: '',
+            country: '',
             startDate: '',
             endDate: '',
             current: false,
@@ -163,6 +167,51 @@ const EducationStep = ({ profile, onNext, onPrevious }: EducationStepProps) => {
                                         )}
                                     />
                                 </div>
+
+                                <FormField
+                                    control={form.control}
+                                    name="city"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel>
+                                                Location (Optional)
+                                            </FormLabel>
+                                            <FormControl>
+                                                <LocationInput
+                                                    value={{
+                                                        city:
+                                                            form.getValues(
+                                                                'city'
+                                                            ) || '',
+                                                        state: form.getValues(
+                                                            'state'
+                                                        ),
+                                                        country:
+                                                            form.getValues(
+                                                                'country'
+                                                            ) || ''
+                                                    }}
+                                                    onChange={(location) => {
+                                                        form.setValue(
+                                                            'city',
+                                                            location.city
+                                                        );
+                                                        form.setValue(
+                                                            'state',
+                                                            location.state
+                                                        );
+                                                        form.setValue(
+                                                            'country',
+                                                            location.country
+                                                        );
+                                                    }}
+                                                    placeholder="Search for city or suburb..."
+                                                />
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
 
                                 <div className="grid grid-cols-3 gap-4">
                                     <FormField

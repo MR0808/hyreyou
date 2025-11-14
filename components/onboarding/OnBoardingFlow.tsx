@@ -83,7 +83,7 @@ const OnboardingFlow = ({
                                     currentStep > step.number
                                         ? 'bg-teal-600 border-teal-600 text-white'
                                         : currentStep === step.number
-                                          ? 'bg-slate-blue border-slate-blue text-white'
+                                          ? 'bg-slate-blue border-slate-900 text-slate-900'
                                           : 'bg-white border-slate-300 text-slate-400'
                                 }`}
                             >
@@ -117,6 +117,7 @@ const OnboardingFlow = ({
                         onPrevious={handlePrevious}
                         isFirstStep={currentStep === 1}
                         isLastStep={currentStep === STEPS.length}
+                        user={user}
                     />
                 )}
             </div>

@@ -1,8 +1,7 @@
 'use server';
 
 import { revalidatePath } from 'next/cache';
-import { auth } from '@/lib/auth';
-import { headers } from 'next/headers';
+
 import { prisma } from '@/lib/prisma';
 import {
     basicDetailsSchema,
@@ -20,8 +19,9 @@ import {
 } from '@/schemas/onboarding';
 import { createAuditLog } from '@/lib/audit/logger';
 import { getAuthUser } from '@/lib/authCheck';
+import { formatLocation } from '@/lib/formatLocation';
 
-export async function saveBasicDetails(data: BasicDetailsInput) {
+export const saveBasicDetails = async (data: BasicDetailsInput) => {
     try {
         const user = await getAuthUser();
         const validated = basicDetailsSchema.parse(data);
@@ -39,7 +39,11 @@ export async function saveBasicDetails(data: BasicDetailsInput) {
                     firstName: validated.firstName,
                     lastName: validated.lastName,
                     headline: validated.headline,
-                    location: validated.location,
+                    location: formatLocation({
+                        city: validated.city,
+                        state: validated.state,
+                        country: validated.country
+                    }),
                     phone: validated.phone,
                     completionScore: calculateCompletionScore({
                         basicDetails: true
@@ -53,7 +57,11 @@ export async function saveBasicDetails(data: BasicDetailsInput) {
                     firstName: validated.firstName,
                     lastName: validated.lastName,
                     headline: validated.headline,
-                    location: validated.location,
+                    location: formatLocation({
+                        city: validated.city,
+                        state: validated.state,
+                        country: validated.country
+                    }),
                     phone: validated.phone,
                     completionScore: calculateCompletionScore({
                         basicDetails: true
@@ -72,7 +80,6 @@ export async function saveBasicDetails(data: BasicDetailsInput) {
         revalidatePath('/onboarding');
         return { success: true, profileId: profile.id };
     } catch (error) {
-        console.error('[v0] Error saving basic details:', error);
         return {
             success: false,
             error:
@@ -81,9 +88,9 @@ export async function saveBasicDetails(data: BasicDetailsInput) {
                     : 'Failed to save basic details'
         };
     }
-}
+};
 
-export async function addWorkExperience(data: WorkExperienceInput) {
+export const addWorkExperience = async (data: WorkExperienceInput) => {
     try {
         const user = await getAuthUser();
         const validated = workExperienceSchema.parse(data);
@@ -134,7 +141,6 @@ export async function addWorkExperience(data: WorkExperienceInput) {
         revalidatePath('/onboarding');
         return { success: true, experienceId: experience.id };
     } catch (error) {
-        console.error('[v0] Error adding work experience:', error);
         return {
             success: false,
             error:
@@ -143,9 +149,9 @@ export async function addWorkExperience(data: WorkExperienceInput) {
                     : 'Failed to add work experience'
         };
     }
-}
+};
 
-export async function deleteWorkExperience(experienceId: string) {
+export const deleteWorkExperience = async (experienceId: string) => {
     try {
         const user = await getAuthUser();
 
@@ -171,7 +177,6 @@ export async function deleteWorkExperience(experienceId: string) {
         revalidatePath('/onboarding');
         return { success: true };
     } catch (error) {
-        console.error('[v0] Error deleting work experience:', error);
         return {
             success: false,
             error:
@@ -180,9 +185,9 @@ export async function deleteWorkExperience(experienceId: string) {
                     : 'Failed to delete work experience'
         };
     }
-}
+};
 
-export async function addEducation(data: EducationInput) {
+export const addEducation = async (data: EducationInput) => {
     try {
         const user = await getAuthUser();
         const validated = educationSchema.parse(data);
@@ -239,7 +244,6 @@ export async function addEducation(data: EducationInput) {
         revalidatePath('/onboarding');
         return { success: true, educationId: education.id };
     } catch (error) {
-        console.error('[v0] Error adding education:', error);
         return {
             success: false,
             error:
@@ -248,9 +252,9 @@ export async function addEducation(data: EducationInput) {
                     : 'Failed to add education'
         };
     }
-}
+};
 
-export async function deleteEducation(educationId: string) {
+export const deleteEducation = async (educationId: string) => {
     try {
         const user = await getAuthUser();
 
@@ -276,7 +280,6 @@ export async function deleteEducation(educationId: string) {
         revalidatePath('/onboarding');
         return { success: true };
     } catch (error) {
-        console.error('[v0] Error deleting education:', error);
         return {
             success: false,
             error:
@@ -285,9 +288,9 @@ export async function deleteEducation(educationId: string) {
                     : 'Failed to delete education'
         };
     }
-}
+};
 
-export async function saveSkills(data: SkillsInput) {
+export const saveSkills = async (data: SkillsInput) => {
     try {
         const user = await getAuthUser();
         const validated = skillsSchema.parse(data);
@@ -364,16 +367,15 @@ export async function saveSkills(data: SkillsInput) {
         revalidatePath('/onboarding');
         return { success: true };
     } catch (error) {
-        console.error('[v0] Error saving skills:', error);
         return {
             success: false,
             error:
                 error instanceof Error ? error.message : 'Failed to save skills'
         };
     }
-}
+};
 
-export async function addCertification(data: CertificationInput) {
+export const addCertification = async (data: CertificationInput) => {
     try {
         const user = await getAuthUser();
         const validated = certificationSchema.parse(data);
@@ -412,7 +414,6 @@ export async function addCertification(data: CertificationInput) {
         revalidatePath('/onboarding');
         return { success: true, certificationId: certification.id };
     } catch (error) {
-        console.error('[v0] Error adding certification:', error);
         return {
             success: false,
             error:
@@ -421,9 +422,9 @@ export async function addCertification(data: CertificationInput) {
                     : 'Failed to add certification'
         };
     }
-}
+};
 
-export async function deleteCertification(certificationId: string) {
+export const deleteCertification = async (certificationId: string) => {
     try {
         const user = await getAuthUser();
 
@@ -449,7 +450,6 @@ export async function deleteCertification(certificationId: string) {
         revalidatePath('/onboarding');
         return { success: true };
     } catch (error) {
-        console.error('[v0] Error deleting certification:', error);
         return {
             success: false,
             error:
@@ -458,9 +458,9 @@ export async function deleteCertification(certificationId: string) {
                     : 'Failed to delete certification'
         };
     }
-}
+};
 
-export async function saveProfilePhoto(data: ProfilePhotoInput) {
+export const saveProfilePhoto = async (data: ProfilePhotoInput) => {
     try {
         const user = await getAuthUser();
         const validated = profilePhotoSchema.parse(data);
@@ -502,7 +502,6 @@ export async function saveProfilePhoto(data: ProfilePhotoInput) {
         revalidatePath('/');
         return { success: true };
     } catch (error) {
-        console.error('[v0] Error saving profile photo:', error);
         return {
             success: false,
             error:
@@ -511,9 +510,9 @@ export async function saveProfilePhoto(data: ProfilePhotoInput) {
                     : 'Failed to save profile settings'
         };
     }
-}
+};
 
-export async function getOnboardingProgress() {
+export const getOnboardingProgress = async () => {
     try {
         const user = await getAuthUser();
 
@@ -555,16 +554,16 @@ export async function getOnboardingProgress() {
             completionScore: 0
         };
     }
-}
+};
 
 // Helper function to calculate completion score
-function calculateCompletionScore(progress: {
+const calculateCompletionScore = (progress: {
     basicDetails?: boolean;
     hasExperience?: boolean;
     hasEducation?: boolean;
     hasSkills?: boolean;
     hasPhoto?: boolean;
-}) {
+}) => {
     let score = 0;
     if (progress.basicDetails) score += 20;
     if (progress.hasExperience) score += 30;
@@ -572,4 +571,4 @@ function calculateCompletionScore(progress: {
     if (progress.hasSkills) score += 20;
     if (progress.hasPhoto) score += 10;
     return score;
-}
+};

@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { isValidPhoneNumber } from 'libphonenumber-js';
 
 export const basicDetailsSchema = z.object({
     firstName: z.string().min(2, 'First name must be at least 2 characters'),
@@ -7,14 +8,23 @@ export const basicDetailsSchema = z.object({
         .string()
         .min(10, 'Headline must be at least 10 characters')
         .max(100, 'Headline must be less than 100 characters'),
-    location: z.string().min(2, 'Location is required'),
-    phone: z.string().optional()
+    city: z.string().min(2, 'City is required'),
+    state: z.string().optional(),
+    country: z.string().min(2, 'Country is required'),
+    phone: z
+        .string()
+        .optional()
+        .refine((val) => !val || isValidPhoneNumber(val), {
+            message: 'Invalid phone number'
+        })
 });
 
 export const workExperienceSchema = z.object({
     company: z.string().min(2, 'Company name is required'),
     title: z.string().min(2, 'Job title is required'),
-    location: z.string().optional(),
+    city: z.string().optional(),
+    state: z.string().optional(),
+    country: z.string().optional(),
     startDate: z.string().min(1, 'Start date is required'),
     endDate: z.string().optional(),
     current: z.boolean().default(false),
@@ -25,6 +35,9 @@ export const educationSchema = z.object({
     institution: z.string().min(2, 'Institution name is required'),
     degree: z.string().min(2, 'Degree is required'),
     field: z.string().optional(),
+    city: z.string().optional(),
+    state: z.string().optional(),
+    country: z.string().optional(),
     startDate: z.string().optional(),
     endDate: z.string().optional(),
     current: z.boolean().default(false),

@@ -30,16 +30,8 @@ export async function logAudit(entry: AuditLogEntry) {
             }
         });
 
-        console.log('[v0] Audit log created:', {
-            id: auditLog.id,
-            action: auditLog.action,
-            entity: auditLog.entity
-        });
-
         return auditLog;
     } catch (error) {
-        console.error('[v0] Failed to create audit log:', error);
-        // Don't throw - audit logging should not break the application
         return null;
     }
 }
@@ -63,8 +55,6 @@ export async function logAuditBatch(entries: AuditLogEntry[]) {
                 userAgent: entry.userAgent
             }))
         });
-
-        console.log('[v0] Batch audit logs created:', auditLogs.count);
 
         return auditLogs;
     } catch (error) {
