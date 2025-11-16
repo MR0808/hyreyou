@@ -229,7 +229,7 @@ const SkillsStep = ({ profile, onNext, onPrevious }: SkillsStepProps) => {
                                                         <Badge
                                                             key={index}
                                                             variant="secondary"
-                                                            className="px-3 py-1.5 text-sm"
+                                                            className="px-3 py-1.5 text-sm bg-accent text-slate-800"
                                                         >
                                                             {skill.name}
                                                             {skill.level && (
